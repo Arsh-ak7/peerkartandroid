@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.8",
+    "@react-native-async-storage/async-storage": "^1.15.17",
     "@react-navigation/native": "^6.0.7",
     "@react-navigation/stack": "^6.1.0",
     "graphql": "^16.3.0",
+    "jwt-decode": "^3.1.2",
     "lottie-react-native": "^5.0.1",
     "react": "17.0.2",
     "react-native": "0.67.1",
@@ -21,6 +23,7 @@
     "react-native-dotenv": "^3.3.1",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^2.2.0",
+    "react-native-linear-gradient": "^2.5.6",
     "react-native-reanimated": "^2.3.1",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.2",
@@ -42,5 +45,18 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arsh-ak7/peerkartandroid.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arsh-ak7/peerkartandroid/issues"
+  },
+  "homepage": "https://github.com/Arsh-ak7/peerkartandroid#readme"
 }

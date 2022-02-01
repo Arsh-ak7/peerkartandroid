@@ -1,23 +1,25 @@
-const { ApolloServer } = require('apollo-server');
+require('dotenv').config();
+const express = require('express');
 const mongoose = require('mongoose');
+const userRoute = require('./routes/user');
+const app = express();
 
-const typeDefs = require('./graphql/typeDefs');
-const resolvers = require('./graphql/resolvers');
-
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: ({ req }) => ({ req }),
-});
+app.use(express.json());
 
 mongoose
-  .connect('mongodb://127.0.0.1/peerkartandroid', {
+  .connect('mongodb://127.0.0.1/peerkart', {
+    useUnifiedTopology: true,
     useNewUrlParser: true,
   })
   .then(() => {
-    console.log('connected to mongodb');
-    return server.listen(process.env.PORT || 5000);
+    console.log('Mongo connected');
   })
-  .then(() => {
-    console.log('connected to server');
+  .catch(err => {
+    console.log(err);
   });
+
+app.use('/api/users', userRoute);
+
+app.listen(8080, () => {
+  console.log('server started');
+});

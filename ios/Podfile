@@ -16,6 +16,10 @@ target 'peerkartandroid' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
+
   target 'peerkartandroidTests' do
     inherit! :complete
     # Pods for testing

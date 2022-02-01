@@ -5,17 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index"
+    "start": "nodemon server.js"
   },
-  "author": "Arsh Kumar",
-  "license": "ISC",
   "dependencies": {
-    "apollo-server": "^3.6.2",
     "bcryptjs": "^2.4.3",
-    "cors": "^2.8.5",
-    "graphql": "^16.3.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.1.8",
+    "mongoose": "^5.12.13",
     "nodemon": "^2.0.15"
-  }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
