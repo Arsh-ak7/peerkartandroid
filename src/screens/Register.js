@@ -9,12 +9,32 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import { gql, useMutation } from '@apollo/client';
 
 export default function Register({ navigation }) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState();
+
+  const [registerUser, { loading }] = useMutation(REGISTER_USER, {
+    onError(err) {
+      setErrors(err.graphQLErrors[0].extensions.errors);
+    },
+    onCompleted(data) {
+      console.log(data);
+    },
+    variables: {
+      username,
+      email,
+      password,
+    },
+  });
+
+  function addUser() {
+    registerUser();
+  }
+
   return (
     <View style={{ flex: 1 }}>
       <ImageBackground
@@ -154,7 +174,7 @@ export default function Register({ navigation }) {
                 fontWeight: '500',
                 fontFamily: 'Mulish-Bold',
               }}>
-              SIGN UP
+              {loading ? 'SIGNING UP' : 'SIGN UP'}
             </Text>
           </LinearGradient>
         </TouchableOpacity>
@@ -199,3 +219,17 @@ export default function Register({ navigation }) {
     </View>
   );
 }
+
+const REGISTER_USER = gql`
+  mutation register($username: String!, $email: String!, $password: String!) {
+    register(
+      registerInput: { username: $username, email: $email, password: $password }
+    ) {
+      id
+      email
+      username
+      createdAt
+      token
+    }
+  }
+`;
