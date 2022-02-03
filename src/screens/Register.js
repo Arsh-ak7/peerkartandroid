@@ -10,25 +10,40 @@ import {
 import React, { useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { gql, useMutation } from '@apollo/client';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import constants from '../redux/constants';
 
 export default function Register({ navigation }) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState();
+  const dispatch = useDispatch();
+
+  const data = useSelector(state => state.auth);
 
   const [registerUser, { loading }] = useMutation(REGISTER_USER, {
-    onError(err) {
-      setErrors(err.graphQLErrors[0].extensions.errors);
+    onCompleted: data => {
+      dispatch({
+        type: constants.REGISTER_SUCCESS,
+        payload: data.register,
+      });
+      navigation.navigate('Home');
     },
-    onCompleted(data) {
-      console.log(data);
+    onError: error => {
+      dispatch({
+        type: constants.REGISTER_FAIL,
+        payload: error.graphQLErrors[0].extensions.errors,
+      });
     },
     variables: {
       username,
       email,
       password,
     },
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'no-cache',
   });
 
   function addUser() {

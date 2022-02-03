@@ -1,4 +1,4 @@
-import Home from './src/screens/Home';
+import Home from '../screens/Home';
 import React from 'react';
 
 export default function (Stack) {

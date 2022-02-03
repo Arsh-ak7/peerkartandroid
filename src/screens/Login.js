@@ -7,10 +7,43 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
+import constants from '../redux/constants';
+import { gql, useMutation } from '@apollo/client';
 
 export default function Login({ navigation }) {
+  const dispatch = useDispatch();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [userLogin, { loading }] = useMutation(LOGIN_USER, {
+    variables: {
+      username,
+      password,
+    },
+    onCompleted: data => {
+      dispatch({
+        type: constants.LOGIN_SUCCESS,
+        payload: data.login,
+      });
+      navigation.navigate('Home');
+    },
+    onError: error => {
+      dispatch({
+        type: constants.LOGIN_FAIL,
+        payload: error.graphQLErrors[0].extensions.errors,
+      });
+    },
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'no-cache',
+  });
+
+  const loginUser = () => {
+    userLogin();
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <ImageBackground
@@ -66,6 +99,9 @@ export default function Login({ navigation }) {
               borderWidth: 1,
               borderColor: '#E0E0E0',
             }}
+            value={username}
+            placeholder="Username"
+            onChangeText={text => setUsername(text)}
           />
         </View>
         <View>
@@ -90,6 +126,9 @@ export default function Login({ navigation }) {
             }}
             textContentType="password"
             secureTextEntry={true}
+            onChangeText={text => setPassword(text)}
+            value={password}
+            placeholder="Password"
           />
         </View>
         <TouchableOpacity
@@ -99,7 +138,8 @@ export default function Login({ navigation }) {
             alignItems: 'center',
             width: '100%',
             paddingTop: 20,
-          }}>
+          }}
+          onPress={() => loginUser()}>
           <LinearGradient
             colors={['#BB6BD9', '#151A6A']}
             style={{
@@ -118,7 +158,7 @@ export default function Login({ navigation }) {
                 fontWeight: '500',
                 fontFamily: 'Mulish-Bold',
               }}>
-              LOGIN
+              {loading ? 'LOGGING IN' : 'LOGIN'}
             </Text>
           </LinearGradient>
         </TouchableOpacity>
@@ -163,3 +203,15 @@ export default function Login({ navigation }) {
     </View>
   );
 }
+
+const LOGIN_USER = gql`
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      id
+      email
+      username
+      createdAt
+      token
+    }
+  }
+`;

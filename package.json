@@ -15,6 +15,9 @@
     "@react-navigation/native": "^6.0.7",
     "@react-navigation/stack": "^6.1.0",
     "apollo3-cache-persist": "^0.13.0",
+    "axios": "^0.25.0",
+    "graphql": "^16.3.0",
+    "graphql-tag": "^2.12.6",
     "jwt-decode": "^3.1.2",
     "lottie-react-native": "^5.0.1",
     "react": "17.0.2",
@@ -50,15 +53,7 @@
   },
   "description": "",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Arsh-ak7/peerkartandroid.git"
-  },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Arsh-ak7/peerkartandroid/issues"
-  },
-  "homepage": "https://github.com/Arsh-ak7/peerkartandroid#readme"
+  "license": "ISC"
 }

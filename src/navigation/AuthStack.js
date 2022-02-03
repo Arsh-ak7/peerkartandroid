@@ -9,7 +9,6 @@ export default function (Stack) {
   return (
     <>
       <Stack.Screen name="Landing" component={Landing} />
-      <Stack.Screen name="Home" component={Home} />
       <Stack.Screen
         name="OnboardingStart"
         component={OnboardingStart}

@@ -6,17 +6,10 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import { gql, useQuery } from '@apollo/client';
 
 export default function Landing({ navigation }) {
-  const { loading, error, data } = useQuery(USERS_QUERY);
-  const [users, setUsers] = useState(null);
-  useEffect(() => {
-    users && setUsers(data);
-  }, [users]);
-
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <StatusBar translucent backgroundColor="transparent" />
@@ -177,14 +170,3 @@ export default function Landing({ navigation }) {
     </View>
   );
 }
-
-const USERS_QUERY = gql`
-  {
-    getUsers {
-      id
-      username
-      email
-      createdAt
-    }
-  }
-`;
