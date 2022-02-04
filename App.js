@@ -57,6 +57,7 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <Provider store={store}>
+        {/* <RootNavigation /> */}
         <Routes />
       </Provider>
     </ApolloProvider>

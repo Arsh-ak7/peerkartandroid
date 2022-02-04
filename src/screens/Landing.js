@@ -12,7 +12,11 @@ import LinearGradient from 'react-native-linear-gradient';
 export default function Landing({ navigation }) {
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <StatusBar translucent backgroundColor="transparent" />
+      <StatusBar
+        translucent
+        barStyle="light-content"
+        backgroundColor="transparent"
+      />
       <View style={{ flex: 1 }}>
         <ImageBackground
           source={require('../assets/images/onboarding.png')}

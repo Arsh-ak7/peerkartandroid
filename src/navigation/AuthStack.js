@@ -4,6 +4,7 @@ import Register from '../screens/Register';
 import Landing from '../screens/Landing';
 import OnboardingStart from '../screens/OnboardingStart';
 import OnboardingEnd from '../screens/OnboardingEnd';
+import { StatusBar } from 'react-native';
 
 export default function (Stack) {
   return (
@@ -15,14 +16,11 @@ export default function (Stack) {
         initialParams={{
           onBoardingScreen: 'start',
         }}
-      />
-      <Stack.Screen
-        name="OnboardingEnd"
-        component={OnboardingEnd}
-        initialParams={{
-          onBoardingScreen: 'end',
+        options={{
+          headerShown: false,
         }}
       />
+      <Stack.Screen name="OnboardingEnd" component={OnboardingEnd} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
     </>

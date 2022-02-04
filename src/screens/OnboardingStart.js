@@ -2,7 +2,7 @@ import { View, Text, Image, StatusBar } from 'react-native';
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function Onboarding({ navigation, route }) {
+export default function OnboardingStart({ navigation, route }) {
   // const ICON =
   //   route.name === 'OnboardingStart'
   //     ? require('../assets/images/onboardingstart.png')
@@ -12,6 +12,7 @@ export default function Onboarding({ navigation, route }) {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
+      {/* <StatusBar barStyle="dark-content" backgroundColor="#fff" /> */}
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       <View
         style={{ flex: 0.55, alignItems: 'center', justifyContent: 'center' }}>
