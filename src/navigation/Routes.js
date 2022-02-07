@@ -18,26 +18,18 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Text, View, Image } from 'react-native';
+import { useState, useEffect } from 'react';
+import { getToken, getDecodedData } from '../utils/hooks';
 
 export default function Routes() {
-  //const userData = useSelector(state => state.auth.userData);
+  const userData = useSelector(state => state.auth.userData);
+
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
 
-  const userData = {
-    token: 'ABS',
-  };
   return (
     <NavigationContainer>
-      {/* <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-        initialRouteName="OnboardingStart">
-        {!!userData && userData?.token ? MainStack(Stack) : AuthStack(Stack)}
-        {MainStack(Tab)}
-      </Stack.Navigator> */}
-      {userData === null ? (
+      {Object.keys(userData).length === 0 ? (
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
@@ -95,12 +87,6 @@ export default function Routes() {
                       alignSelf: 'center',
                     }}
                   />
-                  {/* <Text
-                    style={{
-                      color: 'black',
-                    }}>
-                    Hello
-                  </Text> */}
                 </View>
               ),
               tabBarActiveTintColor: 'blue',
@@ -117,11 +103,6 @@ export default function Routes() {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  {/* <Image
-                    source={require('../assets/images/billing.png')}
-                    height={25}
-                    width={25}
-                  /> */}
                   <Feather name="bar-chart-2" size={25} color="#4F3A57" />
                 </View>
               ),
@@ -137,11 +118,6 @@ export default function Routes() {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  {/* <Image
-                    source={require('../assets/images/billing.png')}
-                    height={25}
-                    width={25}
-                  /> */}
                   <Ionicons
                     name="notifications-outline"
                     size={25}
@@ -161,11 +137,6 @@ export default function Routes() {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  {/* <Image
-                    source={require('../assets/images/billing.png')}
-                    height={25}
-                    width={25}
-                  /> */}
                   <Ionicons name="location-outline" size={25} color="#4F3A57" />
                 </View>
               ),
@@ -190,12 +161,6 @@ export default function Routes() {
                       alignSelf: 'center',
                     }}
                   />
-                  {/* <Text
-                    style={{
-                      color: 'black',
-                    }}>
-                    {props.text}
-                  </Text> */}
                 </View>
               ),
             }}
@@ -221,11 +186,5 @@ const Icon = props => (
         alignSelf: 'center',
       }}
     />
-    {/* <Text
-      style={{
-        color: 'black',
-      }}>
-      {props.text}
-    </Text> */}
   </View>
 );

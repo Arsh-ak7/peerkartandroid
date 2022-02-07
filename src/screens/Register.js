@@ -13,6 +13,7 @@ import { gql, useMutation } from '@apollo/client';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import constants from '../redux/constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Register({ navigation }) {
   const [username, setUsername] = useState('');
@@ -21,15 +22,20 @@ export default function Register({ navigation }) {
   const [errors, setErrors] = useState();
   const dispatch = useDispatch();
 
+  const handleRegister = async registerData => {
+    await AsyncStorage.setItem('jwtToken', JSON.stringify(registerData.token));
+    dispatch({
+      type: constants.LOGIN_SUCCESS,
+      payload: registerData,
+    });
+  };
+
   const data = useSelector(state => state.auth);
 
   const [registerUser, { loading }] = useMutation(REGISTER_USER, {
     onCompleted: data => {
-      dispatch({
-        type: constants.REGISTER_SUCCESS,
-        payload: data.register,
-      });
-      navigation.navigate('Home');
+      console.log(data);
+      handleRegister(data.register);
     },
     onError: error => {
       dispatch({
@@ -245,6 +251,13 @@ const REGISTER_USER = gql`
       username
       createdAt
       token
+      address
+      phone
+      payments {
+        paymentType
+        paymentId
+      }
+      points
     }
   }
 `;

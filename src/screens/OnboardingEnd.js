@@ -1,6 +1,7 @@
 import { View, Text, Image, StatusBar } from 'react-native';
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useSelector } from 'react-redux';
 
 export default function OnboardingEnd({ navigation, route }) {
   //   const ICON =

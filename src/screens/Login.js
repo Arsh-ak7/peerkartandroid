@@ -12,11 +12,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import constants from '../redux/constants';
 import { gql, useMutation } from '@apollo/client';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login({ navigation }) {
   const dispatch = useDispatch();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleLogin = async loginData => {
+    await AsyncStorage.setItem('jwtToken', JSON.stringify(loginData.token));
+    dispatch({
+      type: constants.LOGIN_SUCCESS,
+      payload: loginData,
+    });
+  };
 
   const [userLogin, { loading }] = useMutation(LOGIN_USER, {
     variables: {
@@ -24,11 +33,12 @@ export default function Login({ navigation }) {
       password,
     },
     onCompleted: data => {
-      dispatch({
-        type: constants.LOGIN_SUCCESS,
-        payload: data.login,
-      });
-      navigation.navigate('Home');
+      handleLogin(data.login);
+      // dispatch({
+      //   type: constants.LOGIN_SUCCESS,
+      //   payload: data.login,
+      // });
+      // navigation.navigate('Home');
     },
     onError: error => {
       dispatch({
@@ -98,6 +108,7 @@ export default function Login({ navigation }) {
               marginRight: 25,
               borderWidth: 1,
               borderColor: '#E0E0E0',
+              color: 'black',
             }}
             value={username}
             placeholder="Username"
@@ -123,6 +134,7 @@ export default function Login({ navigation }) {
               marginRight: 25,
               borderWidth: 1,
               borderColor: '#E0E0E0',
+              color: 'black',
             }}
             textContentType="password"
             secureTextEntry={true}
@@ -212,6 +224,13 @@ const LOGIN_USER = gql`
       username
       createdAt
       token
+      address
+      phone
+      payments {
+        paymentType
+        paymentId
+      }
+      points
     }
   }
 `;

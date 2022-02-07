@@ -112,6 +112,7 @@ module.exports = {
         createdAt: new Date().toISOString(),
         address: [],
         payments: [],
+        phone: null,
         points: 500,
       });
 
@@ -126,22 +127,23 @@ module.exports = {
     },
     async updateUserDetails(
       _,
-      { userDetailsInput: { address, payments, points } },
+      { userDetailsInput: { address, payments, points, phone } },
       context,
       info,
     ) {
       const user = checkAuth(context);
       const username = user.username;
-
+      console.log(address, payments, points);
       if (!user)
         throw new AuthenticationError(
           'You are not authorized to add details to the pin',
         );
 
       const update = { $set: {}, $push: {} };
-      update['$set']['points'] = points;
-      update['$push']['address'] = address;
-      update['$push']['payments'] = payments;
+      if (points !== undefined) update['$set']['points'] = points;
+      if (address !== undefined) update['$push']['address'] = address;
+      if (payments !== undefined) update['$push']['payments'] = payments;
+      if (phone !== undefined) update['$set']['phone'] = phone;
 
       const updatedUser = await User.findOneAndUpdate({ username }, update, {
         useFindAndModify: false,

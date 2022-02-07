@@ -1,9 +1,12 @@
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { Dimensions } from 'react-native';
+import { useSelector } from 'react-redux';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function HomeInfo() {
+export default function HomeInfo({ setAddPhoneModal }) {
   const { height, width } = Dimensions.get('screen');
+  const userData = useSelector(state => state.auth.userData);
   return (
     <View
       style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
@@ -52,8 +55,34 @@ export default function HomeInfo() {
                 paddingTop: 2,
                 fontFamily: 'Montserrat-Bold',
               }}>
-              DIANNA
+              {userData.username}
             </Text>
+            {userData.phone ? (
+              <Text
+                style={{
+                  color: 'black',
+                  zIndex: 77,
+                  fontSize: 12,
+
+                  fontFamily: 'Montserrat-Bold',
+                }}>
+                {userData.phone}
+              </Text>
+            ) : (
+              <TouchableOpacity onPress={() => setAddPhoneModal(true)}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Ionicons
+                    name="add-circle-outline"
+                    color="black"
+                    style={{ paddingRight: 5 }}
+                  />
+                  <Text
+                    style={{ fontFamily: 'Montserrat-Regular', fontSize: 12 }}>
+                    ADD PHONE
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
             <View
               style={{
                 width: '100%',
@@ -61,6 +90,7 @@ export default function HomeInfo() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 zIndex: 77,
+                top: -height * 0.007,
               }}>
               <View
                 style={{
@@ -70,6 +100,7 @@ export default function HomeInfo() {
                   height: '80%',
                   backgroundColor: 'white',
                   borderRadius: 30,
+
                   alignItems: 'center',
                   //   justifyContent: 'center',
                   shadowColor: '#005FB7',

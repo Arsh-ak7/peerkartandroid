@@ -12,6 +12,7 @@ module.exports = gql`
     token: String
     createdAt: String!
     address: [String]
+    phone: String
     payments: [Payments]
     points: Int
   }
@@ -48,6 +49,7 @@ module.exports = gql`
     address: String
     payments: PaymentInput
     points: Int
+    phone: String
   }
   type Query {
     getUsers: [User]

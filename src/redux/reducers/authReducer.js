@@ -1,16 +1,13 @@
 import constants from '../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const initialState = {
+let initialState = {
   userData: {},
-  error: {},
 };
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case constants.LOGIN_SUCCESS:
-      //  AsyncStorage.setItem('jwtToken', data.payload.token);
-
       return {
         ...state,
         userData: action.payload,
@@ -23,8 +20,6 @@ export const authReducer = (state = initialState, action) => {
         error: action.payload,
       };
     case constants.REGISTER_SUCCESS:
-      //  AsyncStorage.setItem('jwtToken', data.payload.token);
-
       return {
         ...state,
         userData: action.payload,

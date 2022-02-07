@@ -1,10 +1,21 @@
 import { View, Text, StatusBar, ImageBackground } from 'react-native';
-import React from 'react';
-import HomeInfo from '../components/Profile/HomeInfo';
-import PaymentInfo from '../components/Profile/PaymentInfo';
-import AddressInfo from '../components/Profile/AddressInfo';
+import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector } from 'react-redux';
 
 export default function Home() {
+  const [token, setToken] = useState();
+  const data = useSelector(state => state);
+  useEffect(() => {
+    async function getCred() {
+      const token = await AsyncStorage.getItem('jwtToken').then(res => {
+        return res;
+      });
+      setToken(token);
+    }
+    getCred();
+  }, [token]);
+
   return (
     <View>
       <Text>Home</Text>

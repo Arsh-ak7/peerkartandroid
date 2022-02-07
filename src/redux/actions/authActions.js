@@ -3,15 +3,13 @@ import store from '../store';
 import { useMutation, gql } from '@apollo/client';
 import { useDispatch } from 'react-redux';
 
-// const { dispatch } = store;
-
-// export function saveUserData(data) {
-//   const dispatch = useDispatch();
-//   dispatch({
-//     type: constants.LOGIN_SUCCESS,
-//     payload: data,
-//   });
-// }
+export function saveUserData(data) {
+  const dispatch = useDispatch();
+  dispatch({
+    type: constants.LOGIN_SUCCESS,
+    payload: data,
+  });
+}
 
 // export default logout = () => {
 export const logout = () => async (dispatch, getState) => {
