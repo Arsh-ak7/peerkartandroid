@@ -1,26 +1,5 @@
 const mongoose = require('mongoose');
 
-const UserDetailsSchema = new mongoose.Schema({
-  address: [
-    {
-      type: String,
-    },
-  ],
-  payments: [
-    {
-      paymentType: {
-        type: String,
-      },
-      paymentId: {
-        type: String,
-      },
-    },
-  ],
-  points: {
-    type: Number,
-  },
-});
-
 const UserSchema = new mongoose.Schema(
   {
     username: {
@@ -62,6 +41,22 @@ const UserSchema = new mongoose.Schema(
     points: {
       type: Number,
     },
+    ordersGenerated: [
+      {
+        orderId: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    ordersAccepted: [
+      {
+        orderId: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   { timestamps: true },
 );

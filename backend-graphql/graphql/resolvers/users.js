@@ -7,6 +7,7 @@ const { SECRET_KEY } = require('../../secrets');
 const { validateRegisterInput } = require('../../utils/validators');
 const { validateLoginInput } = require('../../utils/validators');
 const checkAuth = require('../../utils/checkAuth');
+const { AuthenticationError } = require('apollo-server');
 
 function generateToken(user) {
   return jwt.sign(
@@ -35,7 +36,20 @@ module.exports = {
       try {
         const user = User.findById(userId);
         if (user) return user;
-        else throw new Error('Pin Not found');
+        else throw new Error('User Not found');
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    async getUserOrders(_, { userId }) {
+      try {
+        const user = User.findById(userId);
+        if (user)
+          return {
+            generatedOrders: user.generatedOrders,
+            acceptedOrders: user.acceptedOrders,
+          };
+        else throw new Error('User Not Found');
       } catch (err) {
         throw new Error(err);
       }
@@ -133,10 +147,10 @@ module.exports = {
     ) {
       const user = checkAuth(context);
       const username = user.username;
-      console.log(address, payments, points);
+
       if (!user)
         throw new AuthenticationError(
-          'You are not authorized to add details to the pin',
+          'You are not authorized to update details',
         );
 
       const update = { $set: {}, $push: {} };

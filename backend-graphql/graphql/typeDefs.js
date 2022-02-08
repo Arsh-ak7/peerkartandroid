@@ -16,26 +16,26 @@ module.exports = gql`
     payments: [Payments]
     points: Int
   }
-  type Payments {
-    paymentType: String
-    paymentId: String
+  type OrderItems {
+    productName: String,
+    productQty: Int
   }
-  # type UserDetails {
-  #   address: [String]
-  #   payments: [Payments]
-  #   points: Int
-  # }
-  # type CompleteUserDetails {
-  #   id: ID!
-  #   username: String!
-  #   email: String!
-  #   token: String
-  #   createdAt: String!
-  #   address: [String]
-  #   payments: [Payments]
-  #   points: Int
-  #   userDetails: UserDetails
-  # }
+  type UserOrders{
+    ordersGenerated: [OrderItems]
+    ordersAccepted: [OrderItems]
+  }
+  type Order {
+    orderName: String
+    orderCategory: String
+    orderGeneratedBy: String!
+    orderItems: [OrderItems]
+    points: Int
+    orderAcceptedBy: String
+  }
+  input OrderItemInput {
+    productName: String
+    productQty: Int
+  }
   input PaymentInput {
     paymentType: String
     paymentId: String
@@ -51,13 +51,24 @@ module.exports = gql`
     points: Int
     phone: String
   }
+  input OrderInput {
+    orderName: String
+    orderCategory: String
+    orderGeneratedBy: String!
+    orderItems: [OrderItemInput]
+    points: Int
+  }
   type Query {
     getUsers: [User]
     getUser(userId: ID!): User
+    getOrders(): [Order]
+    getOrder(orderId: ID!): Order
+    getUserOrders(userId: ID!): [UserOrders]
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
     updateUserDetails(userDetailsInput: UserDetailsInput): User!
+    addOrder(orderInput: OrderInput): UserOrders!
   }
 `;
