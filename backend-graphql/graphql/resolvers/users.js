@@ -128,6 +128,8 @@ module.exports = {
         payments: [],
         phone: null,
         points: 500,
+        generatedOrders: [],
+        acceptedOrders: [],
       });
 
       const res = await newUser.save();

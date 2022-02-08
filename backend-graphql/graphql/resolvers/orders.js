@@ -1,6 +1,6 @@
-import Orders from '../../models/Orders';
-import User from '../../models/User';
-import checkAuth from '../../utils/checkAuth';
+const Order = require('../../models/Orders');
+const User = require('../../models/User');
+const checkAuth = require('../../utils/checkAuth');
 const { AuthenticationError } = require('apollo-server');
 
 module.exports = {
@@ -38,13 +38,46 @@ module.exports = {
       context,
       info,
     ) {
-      const user = await User.findOne({ orderGeneratedBy });
+      const user = await User.findOne({ username: orderGeneratedBy });
+
       const authUser = checkAuth(context);
+
       if (!authUser) {
         throw new AuthenticationError(
           'You are not authorized to make this order',
         );
       }
+      if (authUser.username !== user.username) {
+        throw new AuthenticationError(
+          'You are not authorized to make this order',
+        );
+      }
+      const newOrder = new Order({
+        orderName,
+        orderCategory,
+        orderGeneratedBy,
+        orderItems,
+        points,
+        createdAt: new Date().toISOString(),
+      });
+
+      const res = await newOrder.save();
+      const updatedUser = await User.findOneAndUpdate(
+        { username: orderGeneratedBy },
+        {
+          $push: {
+            ordersGenerated: {
+              orderId: res._id,
+            },
+          },
+        },
+        { useFindAndModify: false, new: true },
+      );
+
+      return {
+        ...res._doc,
+        id: res._id,
+      };
     },
   },
 };

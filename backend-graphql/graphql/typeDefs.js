@@ -5,6 +5,17 @@ module.exports = gql`
     paymentType: String
     paymentId: String
   }
+  type OrderItems {
+    productName: String
+    productQty: Int
+  }
+  type UserOrders {
+    ordersGenerated: [OrderItems]
+    ordersAccepted: [OrderItems]
+  }
+  type UserOrderIds {
+    orderId: String!
+  }
   type User {
     id: ID!
     username: String!
@@ -15,15 +26,10 @@ module.exports = gql`
     phone: String
     payments: [Payments]
     points: Int
+    ordersGenerated: [UserOrderIds]
+    ordersAccepted: [UserOrderIds]
   }
-  type OrderItems {
-    productName: String,
-    productQty: Int
-  }
-  type UserOrders{
-    ordersGenerated: [OrderItems]
-    ordersAccepted: [OrderItems]
-  }
+
   type Order {
     orderName: String
     orderCategory: String
@@ -61,7 +67,7 @@ module.exports = gql`
   type Query {
     getUsers: [User]
     getUser(userId: ID!): User
-    getOrders(): [Order]
+    getOrders: [Order]
     getOrder(orderId: ID!): Order
     getUserOrders(userId: ID!): [UserOrders]
   }
@@ -69,6 +75,6 @@ module.exports = gql`
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
     updateUserDetails(userDetailsInput: UserDetailsInput): User!
-    addOrder(orderInput: OrderInput): UserOrders!
+    addOrder(orderInput: OrderInput): Order
   }
 `;
