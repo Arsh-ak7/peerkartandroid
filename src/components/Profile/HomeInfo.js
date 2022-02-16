@@ -77,7 +77,11 @@ export default function HomeInfo({ setAddPhoneModal }) {
                     style={{ paddingRight: 5 }}
                   />
                   <Text
-                    style={{ fontFamily: 'Montserrat-Regular', fontSize: 12 }}>
+                    style={{
+                      fontFamily: 'Montserrat-Regular',
+                      fontSize: 12,
+                      color: 'black',
+                    }}>
                     ADD PHONE
                   </Text>
                 </View>

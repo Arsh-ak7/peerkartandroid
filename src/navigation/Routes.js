@@ -14,9 +14,11 @@ import Register from '../screens/Register';
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
 import Dashboard from '../screens/Dashboard';
+import OrdersAccepted from '../screens/OrdersAccepted';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import OrdersPlaced from '../screens/OrdersPlaced';
 import { Text, View, Image } from 'react-native';
 import { useState, useEffect } from 'react';
 import { getToken, getDecodedData } from '../utils/hooks';
@@ -26,6 +28,20 @@ export default function Routes() {
 
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
+
+  function DashboardScreens() {
+    return (
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+        initialRouteName="Dashboard">
+        <Stack.Screen component={Dashboard} name="Dashboard" />
+        <Stack.Screen component={OrdersAccepted} name="OrdersAccepted" />
+        <Stack.Screen component={OrdersPlaced} name="OrdersPlaced" />
+      </Stack.Navigator>
+    );
+  }
 
   return (
     <NavigationContainer>
@@ -92,10 +108,9 @@ export default function Routes() {
               tabBarActiveTintColor: 'blue',
             }}
           />
-
           <Tab.Screen
-            name="Dashboard"
-            component={Dashboard}
+            name="DashboardScreens"
+            component={DashboardScreens}
             options={{
               tabBarIcon: ({ focused }) => (
                 <View

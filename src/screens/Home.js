@@ -17,8 +17,14 @@ export default function Home() {
   }, [token]);
 
   return (
-    <View>
-      <Text>Home</Text>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <StatusBar
+        barStyle={'dark-content'}
+        backgroundColor="#fff"
+        translucent
+        hidden={false}
+        animated
+      />
     </View>
   );
 }

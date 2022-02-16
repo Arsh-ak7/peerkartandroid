@@ -41,6 +41,7 @@ export default function Login({ navigation }) {
       // navigation.navigate('Home');
     },
     onError: error => {
+      //  console.log(error);
       dispatch({
         type: constants.LOGIN_FAIL,
         payload: error.graphQLErrors[0].extensions.errors,

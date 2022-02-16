@@ -28,8 +28,8 @@ const App = () => {
   const [userData, setUserData] = useState();
   const [token, setToken] = useState();
   const httpLink = createHttpLink({
-    // uri: 'https://peerkart.herokuapp.com/graphql/',
-    uri: 'http://10.0.2.2:5000/graphql',
+    uri: 'https://peerkart.herokuapp.com/graphql/',
+    // uri: 'http://10.0.2.2:5000/graphql',
   });
 
   const authLink = setContext(async () => {
