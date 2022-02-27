@@ -2,12 +2,13 @@ import { View, Text, StatusBar, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { Dimensions } from 'react-native';
 import Accordian from 'react-native-collapsible/Accordion';
+import { Image } from 'react-native-elements';
 
 export default function OrdersAccepted({ navigation, route }) {
   const { height, width } = Dimensions.get('screen');
   const DATA = route.params.data;
   const [current, setCurrent] = useState([]);
-  console.log(DATA[0].orderItems);
+
   const renderSectionTitle = section => {
     return (
       <View>
@@ -32,7 +33,13 @@ export default function OrdersAccepted({ navigation, route }) {
           shadowRadius: 8.22,
           elevation: 2,
           justifyContent: 'center',
+          flexDirection: 'row',
+          alignItems: 'center',
         }}>
+        <Image
+          source={require('../assets/icons/grocery.png')}
+          style={{ height: 40, width: 40 }}
+        />
         <Text
           style={{
             color: 'black',

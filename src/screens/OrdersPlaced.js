@@ -93,7 +93,7 @@ export default function OrdersPlaced({ navigation, route }) {
       <StatusBar
         barStyle="dark-content"
         translucent
-        backgroundColor={'white'}
+        backgroundColor="transparent"
       />
       <View
         style={{

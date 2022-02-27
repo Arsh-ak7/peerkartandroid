@@ -28,13 +28,13 @@ export default function Dashboard({ navigation }) {
   useEffect(() => {
     data && data.getUserOrders && setUserOrders(data.getUserOrders);
   }, [data]);
-  console.log(userOrders);
+
   return (
     <View style={{ backgroundColor: 'white', flex: 1 }}>
       <StatusBar
         barStyle="dark-content"
         translucent
-        backgroundColor={'white'}
+        backgroundColor="transparent"
       />
       {/* <ScrollView
         contentContainerStyle={{

@@ -22,6 +22,7 @@ import OrdersPlaced from '../screens/OrdersPlaced';
 import { Text, View, Image } from 'react-native';
 import { useState, useEffect } from 'react';
 import { getToken, getDecodedData } from '../utils/hooks';
+import GetStarted from '../screens/GetStarted';
 
 export default function Routes() {
   const userData = useSelector(state => state.auth.userData);
@@ -50,7 +51,7 @@ export default function Routes() {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName="OnboardingStart">
+          initialRouteName="Landing">
           <Stack.Screen name="Landing" component={Landing} />
           <Stack.Screen
             name="OnboardingStart"
@@ -63,6 +64,7 @@ export default function Routes() {
             }}
           />
           <Stack.Screen name="OnboardingEnd" component={OnboardingEnd} />
+          <Stack.Screen name="GetStarted" component={GetStarted} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Register" component={Register} />
         </Stack.Navigator>

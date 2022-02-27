@@ -5,20 +5,11 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Dimensions } from 'react-native';
 
-export default function OnboardingEnd({ navigation }) {
+export default function GetStarted({ navigation }) {
   const { height, width } = Dimensions.get('screen');
-  const [timer, setTimer] = useState();
-
-  useEffect(() => {
-    let timer = setTimeout(() => {
-      navigation.navigate('GetStarted');
-    }, 3000);
-    setTimer(timer);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -31,39 +22,19 @@ export default function OnboardingEnd({ navigation }) {
           position: 'absolute',
           top: height * 0.075,
         }}>
-        <View
-          style={{
-            height: height * 0.04,
-            alignItems: 'flex-end',
-            justifyContent: 'center',
-            paddingRight: width * 0.05,
-          }}>
-          <TouchableOpacity
-            onPress={() => {
-              clearTimeout(timer);
-              navigation.navigate('GetStarted');
-            }}>
-            <View>
-              <Text
-                style={{
-                  fontFamily: 'Poppins-Bold',
-                  fontSize: 20,
-                  color: 'white',
-                }}>
-                skip {'>'}
-              </Text>
-            </View>
-          </TouchableOpacity>
+        <View style={{ alignItems: 'center' }}>
+          <Text>LOGO</Text>
         </View>
         <View
           style={{
-            paddingTop: height * 0.0475,
+            paddingTop: height * 0.0375,
             width: width,
-            paddingLeft: width * 0.15,
-            paddingBottom: height * 0.02,
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingLeft: width * 0.2,
           }}>
           <Image
-            source={require('../assets/images/onboardingend.png')}
+            source={require('../assets/images/getstarted.png')}
             style={{
               width: width,
               height: height * 0.4,
@@ -86,8 +57,10 @@ export default function OnboardingEnd({ navigation }) {
               textAlign: 'center',
               color: '#333333',
               paddingTop: 30,
+              paddingLeft: width * 0.1,
+              paddingRight: width * 0.1,
             }}>
-            Order delivered as fast as you think!
+            Let's order all that you need!
           </Text>
           <Text
             style={{
@@ -100,10 +73,29 @@ export default function OnboardingEnd({ navigation }) {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
             a elementum sit eu quam vulputate ultricies a.
           </Text>
-          <Image
-            source={require('../assets/images/slider2.png')}
+          <TouchableOpacity
             style={{ marginTop: 20 }}
-          />
+            onPress={() => navigation.navigate('Login')}>
+            <View
+              style={{
+                borderColor: '#eb5757',
+                borderRadius: 30,
+                borderWidth: 1,
+                paddingTop: 7.5,
+                paddingBottom: 7.5,
+                paddingLeft: 15,
+                paddingRight: 15,
+              }}>
+              <Text
+                style={{
+                  color: '#eb5757',
+                  fontFamily: 'Poppins-Bold',
+                  fontSize: 20,
+                }}>
+                Let's get started {'>'}
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

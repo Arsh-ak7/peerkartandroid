@@ -1,106 +1,104 @@
-import { View, Text, Image, StatusBar } from 'react-native';
-import React from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {
+  View,
+  Text,
+  Image,
+  ImageBackground,
+  TouchableOpacity,
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Dimensions } from 'react-native';
 
-export default function OnboardingStart({ navigation, route }) {
-  // const ICON =
-  //   route.name === 'OnboardingStart'
-  //     ? require('../assets/images/onboardingstart.png')
-  //     : require('../assets/images/onboardingend.png');
+export default function OnboardingStart({ navigation }) {
+  const { height, width } = Dimensions.get('screen');
+  const [timer, setTimer] = useState();
 
-  // const REDIRECT = route.name === 'OnboardingStart' ? 'OnboardingEnd' : 'Login';
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      navigation.navigate('OnboardingEnd');
+    }, 3000);
+    setTimer(timer);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      {/* <StatusBar barStyle="dark-content" backgroundColor="#fff" /> */}
-      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-      <View
-        style={{ flex: 0.55, alignItems: 'center', justifyContent: 'center' }}>
-        <Image
-          source={require('../assets/images/onboardingstart.png')}
-          style={{
-            height: 300,
-            width: 200,
-          }}
-        />
-      </View>
+    <View style={{ flex: 1 }}>
+      <ImageBackground
+        source={require('../assets/images/onboardingbg.png')}
+        style={{ flex: 1 }}
+      />
       <View
         style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          flex: 0.15,
+          position: 'absolute',
+          top: height * 0.075,
         }}>
-        <Text
+        <View
           style={{
-            color: 'black',
-            fontSize: 32,
-            fontFamily: 'Mulish-Bold',
-            width: '80%',
-            textAlign: 'center',
+            height: height * 0.04,
+            alignItems: 'flex-end',
+            justifyContent: 'center',
+            paddingRight: width * 0.05,
           }}>
-          Track your work and get the results
-        </Text>
-        <Text
+          <TouchableOpacity
+            onPress={() => {
+              clearTimeout(timer);
+              navigation.navigate('GetStarted');
+            }}>
+            <View>
+              <Text
+                style={{
+                  fontFamily: 'Poppins-Bold',
+                  fontSize: 20,
+                  color: 'white',
+                }}>
+                skip {'>'}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={{ paddingTop: height * 0.0675 }}>
+          <Image
+            source={require('../assets/images/onboardingstart.png')}
+            style={{
+              width: width,
+              height: height * 0.4,
+              resizeMode: 'contain',
+            }}
+          />
+        </View>
+        <View
           style={{
-            color: 'black',
-            fontSize: 20,
-            fontFamily: 'Mulish-Regular',
-            width: '80%',
-            textAlign: 'center',
-            paddingTop: 10,
+            backgroundColor: 'white',
+            height: height * 0.5,
+            borderTopLeftRadius: 30,
+            borderTopRightRadius: 30,
+            alignItems: 'center',
           }}>
-          Remember to keep track of your professional accomplishments
-        </Text>
-      </View>
-      <View
-        style={{
-          flex: 0.3,
-          justifyContent: 'space-evenly',
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
-        <TouchableOpacity onPress={() => navigation.navigate('Landing')}>
-          <View
+          <Text
             style={{
-              backgroundColor: '#fff',
-              height: 50,
-              width: 120,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 30,
+              fontFamily: 'Poppins-Bold',
+              fontSize: 32,
+              textAlign: 'center',
+              color: '#333333',
+              paddingTop: 30,
             }}>
-            <Text
-              style={{
-                color: 'black',
-                fontSize: 20,
-                fontWeight: '500',
-                fontFamily: 'Mulish-Bold',
-              }}>
-              SKIP
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('OnboardingEnd')}>
-          <View
+            Order whatever you need!
+          </Text>
+          <Text
             style={{
-              backgroundColor: '#000',
-              height: 50,
-              width: 100,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 50,
+              fontFamily: 'Poppins-Bold',
+              fontSize: 16,
+              textAlign: 'center',
+              color: '#333333',
+              paddingTop: 10,
             }}>
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 20,
-                fontWeight: '500',
-                fontFamily: 'Mulish-Bold',
-              }}>
-              NEXT
-            </Text>
-          </View>
-        </TouchableOpacity>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+            a elementum sit eu quam vulputate ultricies a.
+          </Text>
+          <Image
+            source={require('../assets/images/slider1.png')}
+            style={{ marginTop: 20 }}
+          />
+        </View>
       </View>
     </View>
   );
