@@ -130,7 +130,7 @@ export default function OrderView({ setModalVisible, orderDetails }) {
             <View
               style={{
                 width: '100%',
-                backgroundColor: '#0ACF83',
+                backgroundColor: '#eb5757',
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: height * 0.05,

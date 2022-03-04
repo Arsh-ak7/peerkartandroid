@@ -8,10 +8,10 @@ import {
 } from 'react-native';
 import { Dimensions } from 'react-native';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 export default function Landing({ navigation, route }) {
   const { height, width } = Dimensions.get('screen');
-
   return (
     <View style={{ flex: 1 }}>
       <StatusBar

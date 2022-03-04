@@ -6,11 +6,14 @@ import { Dimensions } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { TouchableOpacity } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomModal from '../components/CustomModal';
 import AddPayment from '../components/Profile/AddPayment';
 import { useSelector } from 'react-redux';
 import AddAddress from '../components/Profile/AddAddress';
 import AddPhone from '../components/Profile/AddPhone';
+import { useDispatch } from 'react-redux';
+import constants from '../redux/constants';
 
 export default function Profile() {
   const { height, width } = Dimensions.get('screen');
@@ -28,6 +31,8 @@ export default function Profile() {
   const goForward = () => {
     carouselRef.current.snapToNext();
   };
+
+  const dispatch = useDispatch();
 
   const __renderItem = ({ item }) => {
     return (
@@ -227,6 +232,23 @@ export default function Profile() {
             width: '100%',
           }}
         />
+        <View
+          style={{
+            position: 'absolute',
+            top: height * 0.06,
+            right: width * 0.06,
+          }}>
+          <TouchableOpacity
+            onPress={() =>
+              dispatch({
+                type: constants.LOGOUT,
+              })
+            }>
+            <View>
+              <AntDesign name="logout" color={'white'} size={26} />
+            </View>
+          </TouchableOpacity>
+        </View>
         <View
           style={{
             position: 'absolute',

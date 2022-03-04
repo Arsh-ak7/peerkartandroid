@@ -1,5 +1,4 @@
 import constants from '../constants';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let initialState = {
   userData: {},
@@ -33,9 +32,10 @@ export const authReducer = (state = initialState, action) => {
       };
     case constants.LOGOUT:
       return {
-        state: initialState,
+        ...state,
+        userData: {},
       };
     default:
-      return { ...state };
+      return state;
   }
 };

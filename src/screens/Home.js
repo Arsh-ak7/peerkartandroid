@@ -1,12 +1,4 @@
-import {
-  View,
-  Text,
-  StatusBar,
-  ImageBackground,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import { View, Text, StatusBar, TouchableOpacity, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomModal from '../components/CustomModal';
@@ -14,14 +6,20 @@ import OrderView from '../components/Home/OrderView';
 import { Dimensions } from 'react-native';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
+import { ScrollView } from 'react-native-gesture-handler';
+import AddOrderName from '../components/AddOrderName';
+import { useSelector } from 'react-redux';
 
-export default function Home() {
+export default function Home({ navigation }) {
   const [token, setToken] = useState();
   const { height, width } = Dimensions.get('screen');
-  const [createOrderModal, setCreateOrderModal] = useState(false);
   const [orderViewModal, setOrderViewModal] = useState(false);
-  const { loading, error, data } = useQuery(GET_ORDERS);
+  const { loading, data } = useQuery(GET_ORDERS);
   const [orderViewContent, setOrderViewContent] = useState(null);
+  const [addNameModal, setAddNameModalVisible] = useState(false);
+
+  const dp = useSelector(state => state);
+  console.log(dp);
 
   useEffect(() => {
     async function getCred() {
@@ -67,6 +65,7 @@ export default function Home() {
               alignItems: 'flex-end',
             }}>
             <TouchableOpacity
+              onPress={() => setAddNameModalVisible(true)}
               style={{
                 width: '100%',
                 height: '40%',
@@ -75,7 +74,7 @@ export default function Home() {
               }}>
               <View
                 style={{
-                  backgroundColor: '#0ACF83',
+                  backgroundColor: '#eb5757',
                   height: '80%',
                   width: '100%',
                   alignItems: 'center',
@@ -83,7 +82,12 @@ export default function Home() {
                   borderRadius: 10,
                   flex: 1,
                 }}>
-                <Text style={{ color: 'white', textTransform: 'uppercase' }}>
+                <Text
+                  style={{
+                    color: 'white',
+                    textTransform: 'uppercase',
+                    fontFamily: 'Poppins-SemiBold',
+                  }}>
                   Create Order
                 </Text>
               </View>
@@ -91,82 +95,87 @@ export default function Home() {
           </View>
         </View>
         <View>
-          {loading ? (
-            <Text style={{ color: 'black' }}>Loading</Text>
-          ) : (
-            data.getOrders.map((order, i) => (
-              <TouchableOpacity
-                onPress={() => {
-                  setOrderViewModal(true), setOrderViewContent(order);
-                }}
-                key={i}
-                style={{
-                  shadowColor: '#000',
-                  shadowOffset: {
-                    width: 0,
-                    height: 1,
-                  },
-                  shadowOpacity: 0.2,
-                  shadowRadius: 1.41,
-                  elevation: 2,
-                  padding: 5,
-                  marginTop: 20,
-                  backgroundColor: '#f5f5f5',
-                }}>
-                <View
+          <ScrollView
+            style={{
+              height: height * 0.7,
+            }}>
+            {loading ? (
+              <Text style={{ color: 'black' }}>Loading</Text>
+            ) : (
+              data.getOrders.map((order, i) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    setOrderViewModal(true), setOrderViewContent(order);
+                  }}
+                  key={i}
                   style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-evenly',
+                    shadowColor: '#eb5757',
+                    shadowOffset: {
+                      width: 0,
+                      height: 1,
+                    },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 4.41,
+                    elevation: 2,
+                    padding: 10,
+                    marginTop: 20,
+                    backgroundColor: 'white',
                   }}>
                   <View
                     style={{
-                      flex: 0.3,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <Image
-                      source={require('../assets/icons/grocery.png')}
-                      style={{ height: 40, width: 40 }}
-                    />
-                  </View>
-                  <View
-                    style={{
-                      flex: 0.5,
                       flexDirection: 'row',
                       alignItems: 'center',
+                      justifyContent: 'space-evenly',
                     }}>
-                    <Text
+                    <View
                       style={{
-                        color: 'black',
-                        fontSize: 18,
-                        textTransform: 'uppercase',
-                        fontFamily: 'OpenSans-Regular',
+                        flex: 0.3,
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}>
-                      {order.orderName}
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      flex: 0.2,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                    <Text
+                      <Image
+                        source={require('../assets/icons/grocery.png')}
+                        style={{ height: 40, width: 40 }}
+                      />
+                    </View>
+                    <View
                       style={{
-                        color: 'black',
-                        fontSize: 20,
-                        textTransform: 'uppercase',
-                        fontFamily: 'OpenSans-Regular',
+                        flex: 0.5,
+                        flexDirection: 'row',
+                        alignItems: 'center',
                       }}>
-                      {order.points}
-                    </Text>
+                      <Text
+                        style={{
+                          color: 'black',
+                          fontSize: 18,
+                          textTransform: 'uppercase',
+                          fontFamily: 'Poppins-SemiBold',
+                        }}>
+                        {order.orderName}
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        flex: 0.2,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      <Text
+                        style={{
+                          color: 'black',
+                          fontSize: 20,
+                          textTransform: 'uppercase',
+                          fontFamily: 'Poppins-SemiBold',
+                        }}>
+                        {order.points}
+                      </Text>
+                    </View>
                   </View>
-                </View>
-              </TouchableOpacity>
-            ))
-          )}
+                </TouchableOpacity>
+              ))
+            )}
+          </ScrollView>
         </View>
         <CustomModal
           modalVisible={orderViewModal}
@@ -179,6 +188,11 @@ export default function Home() {
           }
         />
       </View>
+      <AddOrderName
+        addNameModal={addNameModal}
+        setAddNameModalVisible={setAddNameModalVisible}
+        navigation={navigation}
+      />
     </View>
   );
 }

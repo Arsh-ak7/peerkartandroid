@@ -10,11 +10,9 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import LinearGradient from 'react-native-linear-gradient';
 import constants from '../redux/constants';
 import { gql, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Dimensions } from 'react-native';
 
 export default function Login({ navigation }) {
@@ -23,6 +21,7 @@ export default function Login({ navigation }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
   const handleLogin = async loginData => {
     await AsyncStorage.setItem('jwtToken', JSON.stringify(loginData.token));
     dispatch({

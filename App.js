@@ -20,9 +20,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { saveUserData } from './src/redux/actions/authActions';
 import { Provider } from 'react-redux';
 import Routes from './src/navigation/Routes';
-import store from './src/redux/store';
 import { getDecodedData, getToken } from './src/utils/hooks';
 import { useState } from 'react';
+import { store, persistor } from './src/redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const App = () => {
   const [userData, setUserData] = useState();
@@ -58,7 +59,9 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <Provider store={store}>
-        <Routes />
+        <PersistGate loading={null} persistor={persistor}>
+          <Routes />
+        </PersistGate>
       </Provider>
     </ApolloProvider>
   );

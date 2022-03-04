@@ -37,7 +37,6 @@ export default function Register({ navigation }) {
 
   const [registerUser, { loading }] = useMutation(REGISTER_USER, {
     onCompleted: data => {
-      console.log(data);
       handleRegister(data.register);
     },
     onError: error => {

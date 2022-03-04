@@ -1,6 +1,4 @@
 import constants from '../constants';
-import store from '../store';
-import { useMutation, gql } from '@apollo/client';
 import { useDispatch } from 'react-redux';
 
 export function saveUserData(data) {

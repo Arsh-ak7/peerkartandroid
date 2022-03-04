@@ -1,15 +1,13 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
-import MainStack from './MainStack';
-import AuthStack from './AuthStack';
 import { useSelector } from 'react-redux';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Landing from '../screens/Landing';
 import OnboardingStart from '../screens/OnboardingStart';
 import OnboardingEnd from '../screens/OnboardingEnd';
 import Login from '../screens/Login';
+import CreateOrder from '../components/Home/CreateOrder';
 import Register from '../screens/Register';
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
@@ -18,15 +16,15 @@ import OrdersAccepted from '../screens/OrdersAccepted';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import OrdersPlaced from '../screens/OrdersPlaced';
 import { Text, View, Image } from 'react-native';
-import { useState, useEffect } from 'react';
-import { getToken, getDecodedData } from '../utils/hooks';
 import GetStarted from '../screens/GetStarted';
+import Cart from '../screens/Cart';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Routes() {
   const userData = useSelector(state => state.auth.userData);
-
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
 
@@ -40,6 +38,18 @@ export default function Routes() {
         <Stack.Screen component={Dashboard} name="Dashboard" />
         <Stack.Screen component={OrdersAccepted} name="OrdersAccepted" />
         <Stack.Screen component={OrdersPlaced} name="OrdersPlaced" />
+        <Stack.Screen component={CreateOrder} name="CreateOrder" />
+      </Stack.Navigator>
+    );
+  }
+
+  function HomeScreens() {
+    return (
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="Home">
+        <Stack.Screen component={Home} name="Home" />
+        <Stack.Screen component={CreateOrder} name="CreateOrder" />
       </Stack.Navigator>
     );
   }
@@ -87,8 +97,8 @@ export default function Routes() {
             },
           }}>
           <Tab.Screen
-            name="Home"
-            component={Home}
+            name="HomeScreens"
+            component={HomeScreens}
             options={{
               tabBarIcon: ({ focused }) => (
                 <View
@@ -126,8 +136,8 @@ export default function Routes() {
             }}
           />
           <Tab.Screen
-            name="Notifications"
-            component={Dashboard}
+            name="Cart"
+            component={Cart}
             options={{
               tabBarIcon: ({ focused }) => (
                 <View
@@ -135,11 +145,7 @@ export default function Routes() {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <Ionicons
-                    name="notifications-outline"
-                    size={25}
-                    color="#4F3A57"
-                  />
+                  <FontAwesome name="opencart" size={25} color="#4F3A57" />
                 </View>
               ),
             }}
