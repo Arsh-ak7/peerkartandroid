@@ -3,16 +3,30 @@ import { Dimensions } from 'react-native';
 import React from 'react';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../../redux/actions/cartActions';
 
-export default function CreateOrder() {
+export default function CreateOrder({ navigation }) {
+  const dispatch = useDispatch();
+  const { height, width } = Dimensions.get('screen');
+  const [itemName, setItemName] = useState('');
+  const [qty, setQty] = useState('1');
+  const [unit, setUnit] = useState('Pieces');
+
   const dp = useSelector(state => state.cart);
   console.log(dp);
-  const { height, width } = Dimensions.get('screen');
-  const [itemname, setItemname] = useState('');
-  const [orderName, setOrderName] = useState('');
-  const [category, setCategory] = useState('');
-  const [qty, setQty] = useState('');
+
+  const handleAddToCart = () => {
+    addToCart(
+      dispatch,
+      (item = {
+        itemName,
+        qty,
+        unit,
+      }),
+    );
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ alignItems: 'center', marginTop: height * 0.06 }}>
@@ -35,37 +49,11 @@ export default function CreateOrder() {
             paddingBottom: 10,
             fontFamily: 'Montserrat-Bold',
           }}>
-          Name of Order
-        </Text>
-        <TextInput
-          style={{
-            height: 40,
-            marginLeft: 25,
-            marginRight: 25,
-            borderWidth: 1,
-            borderColor: '#eb575788',
-            color: 'black',
-            paddingLeft: 10,
-          }}
-          value={orderName}
-          placeholder="Order Name"
-          onChangeText={text => setOrderName(text)}
-          placeholderTextColor={'black'}
-        />
-        <Text
-          style={{
-            color: 'black',
-            fontSize: 16,
-            paddingTop: 24,
-            paddingLeft: 25,
-            paddingBottom: 10,
-            fontFamily: 'Montserrat-Bold',
-          }}>
           Item Name
         </Text>
         <TextInput
           style={{
-            height: 40,
+            height: 55,
             marginLeft: 25,
             marginRight: 25,
             borderWidth: 1,
@@ -73,41 +61,12 @@ export default function CreateOrder() {
             color: 'black',
             paddingLeft: 10,
           }}
-          value={itemname}
+          value={itemName}
           placeholder="Item Name"
-          onChangeText={text => setItemname(text)}
+          onChangeText={text => setItemName(text)}
           placeholderTextColor={'black'}
         />
-        <Text
-          style={{
-            color: 'black',
-            fontSize: 16,
-            paddingTop: 24,
-            paddingLeft: 25,
-            paddingBottom: 10,
-            fontFamily: 'Montserrat-Bold',
-          }}>
-          Item Category
-        </Text>
-        <View
-          style={{
-            marginLeft: 25,
-            marginRight: 25,
-            borderRadius: 5,
-            borderColor: '#eb5757',
-            borderWidth: 1,
-          }}>
-          <Picker
-            selectedValue={category}
-            style={{
-              color: 'black',
-            }}
-            dropdownIconColor="black"
-            onValueChange={itemValue => setCategory(itemValue)}>
-            <Picker.Item label="Grocery" value={'Grocery'} />
-            <Picker.Item label="Fish and Meat" value={'Fish and Meat'} />
-          </Picker>
-        </View>
+
         <Text
           style={{
             color: 'black',
@@ -146,8 +105,39 @@ export default function CreateOrder() {
             <Picker.Item label="10" value={'10'} />
           </Picker>
         </View>
+        <Text
+          style={{
+            color: 'black',
+            fontSize: 16,
+            paddingTop: 24,
+            paddingLeft: 25,
+            paddingBottom: 10,
+            fontFamily: 'Montserrat-Bold',
+          }}>
+          Units
+        </Text>
+        <View
+          style={{
+            marginLeft: 25,
+            marginRight: 25,
+            borderRadius: 5,
+            borderColor: '#eb5757',
+            borderWidth: 1,
+          }}>
+          <Picker
+            selectedValue={unit}
+            style={{
+              color: 'black',
+            }}
+            dropdownIconColor="black"
+            onValueChange={itemValue => setUnit(itemValue)}>
+            <Picker.Item label="Pieces" value={'Pieces'} />
+            <Picker.Item label="Kg" value={'Kg'} />
+            <Picker.Item label="Ltr" value={'Ltr'} />
+          </Picker>
+        </View>
         <View style={{ alignItems: 'center', marginTop: height * 0.05 }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handleAddToCart()}>
             <View
               style={{
                 backgroundColor: '#eb5757',
@@ -171,7 +161,7 @@ export default function CreateOrder() {
           </TouchableOpacity>
         </View>
         <View style={{ marginTop: height * 0.04, alignItems: 'center' }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
             <View
               style={{
                 backgroundColor: '#eb5757',

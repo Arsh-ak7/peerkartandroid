@@ -9,6 +9,7 @@ import { useQuery } from '@apollo/client';
 import { ScrollView } from 'react-native-gesture-handler';
 import AddOrderName from '../components/AddOrderName';
 import { useSelector } from 'react-redux';
+import AddOrderCategory from '../components/AddOrderCategory';
 
 export default function Home({ navigation }) {
   const [token, setToken] = useState();
@@ -17,9 +18,7 @@ export default function Home({ navigation }) {
   const { loading, data } = useQuery(GET_ORDERS);
   const [orderViewContent, setOrderViewContent] = useState(null);
   const [addNameModal, setAddNameModalVisible] = useState(false);
-
-  const dp = useSelector(state => state);
-  console.log(dp);
+  const [addOrderCategoryModal, setAddOrderCategoryModal] = useState(false);
 
   useEffect(() => {
     async function getCred() {
@@ -191,6 +190,12 @@ export default function Home({ navigation }) {
       <AddOrderName
         addNameModal={addNameModal}
         setAddNameModalVisible={setAddNameModalVisible}
+        setAddCategoryModal={setAddOrderCategoryModal}
+      />
+      <AddOrderCategory
+        setAddNameModalVisible={setAddNameModalVisible}
+        addCategoryModal={addOrderCategoryModal}
+        setAddOrderCategory={setAddOrderCategoryModal}
         navigation={navigation}
       />
     </View>

@@ -1,8 +1,6 @@
 import constants from '../constants';
-import { useDispatch } from 'react-redux';
 
-export function saveUserData(data) {
-  const dispatch = useDispatch();
+export function saveUserData(dispatch, data) {
   dispatch({
     type: constants.LOGIN_SUCCESS,
     payload: data,

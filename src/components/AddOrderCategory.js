@@ -3,30 +3,28 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
-  Image,
-  TextInput,
   KeyboardAvoidingView,
 } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { Modal } from 'react-native';
 import React from 'react';
-import { addOrderName } from '../redux/actions/cartActions';
 import { useRef, useState } from 'react';
 import { Dimensions } from 'react-native';
 import { useDispatch } from 'react-redux';
 import constants from '../redux/constants';
 
-export default function AddOrderName({
-  addNameModal,
+export default function AddOrderCategory({
+  navigation,
+  addCategoryModal,
+  setAddOrderCategory,
   setAddNameModalVisible,
-  setAddCategoryModal,
 }) {
-  const { height, width } = Dimensions.get('screen');
-  const [orderName, setOrderName] = useState('');
-  const inputRef = useRef();
+  const { width } = Dimensions.get('screen');
+  const [category, setCategory] = useState('Groceries');
   const dispatch = useDispatch();
   return (
     <KeyboardAvoidingView>
-      <Modal animationType="fade" visible={addNameModal} transparent={true}>
+      <Modal animationType="fade" visible={addCategoryModal} transparent={true}>
         <View
           style={{
             flex: 1,
@@ -63,7 +61,7 @@ export default function AddOrderName({
                     color: 'black',
                     textAlign: 'center',
                   }}>
-                  It's time to create an order!
+                  Choose a category
                 </Text>
                 <Text
                   style={{
@@ -72,48 +70,52 @@ export default function AddOrderName({
                     fontFamily: 'Poppins-Regular',
                     fontSize: 18,
                   }}>
-                  Let's start by giving a name for your order
+                  Please choose a category for your order
                 </Text>
               </View>
-              <View style={{ width: '100%' }}>
-                <Text
+              <Text
+                style={{
+                  color: 'black',
+                  fontSize: 16,
+                  paddingTop: 24,
+                  paddingLeft: 25,
+                  paddingBottom: 10,
+                  fontFamily: 'Montserrat-Bold',
+                }}>
+                Order Category
+              </Text>
+              <View
+                style={{
+                  marginLeft: 25,
+                  marginRight: 25,
+                  borderRadius: 5,
+                  borderColor: '#eb5757',
+                  borderWidth: 1,
+                }}>
+                <Picker
+                  selectedValue={category}
                   style={{
                     color: 'black',
-                    fontSize: 16,
-                    paddingTop: 24,
-                    paddingLeft: 25,
-                    paddingBottom: 10,
-                    fontFamily: 'Montserrat-Bold',
-                  }}>
-                  Name Of Order
-                </Text>
-                <TextInput
-                  ref={inputRef}
-                  style={{
-                    height: 40,
-                    marginLeft: 25,
-                    marginRight: 25,
-                    borderWidth: 1,
-                    borderColor: '#eb575788',
-                    color: 'black',
-                    paddingLeft: 10,
+                    width: 350,
                   }}
-                  //value={orderName}
-                  placeholder="Name of Order"
-                  onChangeText={text => setOrderName(text)}
-                  placeholderTextColor={'black'}
-                />
+                  dropdownIconColor="black"
+                  onValueChange={itemValue => setCategory(itemValue)}>
+                  <Picker.Item label="Grocery" value={'Grocery'} />
+                  <Picker.Item label="Fish and Meat" value={'Fish and Meat'} />
+                  <Picker.Item label="Stationary" value={'Stationary'} />
+                  <Picker.Item label="Medicines" value={'Medicines'} />
+                </Picker>
               </View>
               <View
                 style={{ width: '100%', alignItems: 'center', marginTop: 20 }}>
                 <TouchableOpacity
                   onPress={() => {
                     dispatch({
-                      type: constants.ADD_ORDER_NAME,
-                      payload: orderName,
+                      type: constants.ADD_CATEGORY,
+                      payload: category,
                     });
-                    setAddNameModalVisible(false);
-                    setAddCategoryModal(true);
+                    setAddOrderCategory(false);
+                    navigation.navigate('CreateOrder');
                   }}>
                   <View
                     style={{
@@ -139,7 +141,11 @@ export default function AddOrderName({
               </View>
               <View
                 style={{ width: '100%', alignItems: 'center', marginTop: 20 }}>
-                <TouchableOpacity onPress={() => setAddNameModalVisible(false)}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setAddOrderCategory(false);
+                    setAddNameModalVisible(true);
+                  }}>
                   <View
                     style={{
                       backgroundColor: 'black',

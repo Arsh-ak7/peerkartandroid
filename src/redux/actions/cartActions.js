@@ -1,52 +1,43 @@
 import constants from '../constants';
-import { useDispatch } from 'react-redux';
 
-export const addToCart = (itemName, itemQty, category) => {
-  const dispatch = useDispatch();
+export const addToCart = (dispatch, item) => {
   dispatch({
     type: constants.ADD_TO_CART,
-    payload: {
-      category,
-      itemName,
-      itemQty,
-    },
+    payload: item,
   });
 };
 
-export const removeFromCart = itemName => {
-  const dispatch = useDispatch();
+export const removeFromCart = (dispatch, item) => {
   dispatch({
     type: constants.REMOVE_FROM_CART,
-    payload: {
-      itemName,
-    },
+    payload: item,
   });
 };
 
-export const adjustItemQty = (itemName, itemQty, category) => {
-  const dispatch = useDispatch();
+export const adjustItemQty = (dispatch, item) => {
   dispatch({
     type: constants.ADJUST_ITEM_QTY,
-    payload: {
-      itemName,
-      itemQty,
-      category,
-    },
+    payload: item,
   });
 };
 
-export const loadCurrentItem = item => {
-  const dispatch = useDispatch();
+export const loadCurrentItem = (dispatch, item) => {
   dispatch({
     type: constants.LOAD_CURRENT_ITEM,
     payload: item,
   });
 };
 
-export const addOrderName = orderName => {
-  const dispatch = useDispatch();
+export const addOrderName = (dispatch, orderName) => {
   dispatch({
     type: constants.ADD_ORDER_NAME,
     payload: orderName,
+  });
+};
+
+export const addCategory = (dispatch, category) => {
+  dispatch({
+    type: constants.ADD_CATEGORY,
+    payload: category,
   });
 };

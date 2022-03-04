@@ -11,7 +11,7 @@ import { Dimensions } from 'react-native';
 
 export default function OrderView({ setModalVisible, orderDetails }) {
   const { height, width } = Dimensions.get('screen');
-  console.log(orderDetails);
+
   return (
     <View
       style={{
