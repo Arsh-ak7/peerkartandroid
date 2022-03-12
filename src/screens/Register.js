@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   Text,
@@ -9,7 +10,6 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { Dimensions } from 'react-native';
-import { gql, useMutation } from '@apollo/client';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import constants from '../redux/constants';
@@ -21,6 +21,7 @@ export default function Register({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
 
   const handleRegister = async registerData => {
@@ -30,33 +31,6 @@ export default function Register({ navigation }) {
       payload: registerData,
     });
   };
-
-  const data = useSelector(state => state.auth);
-
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const [registerUser, { loading }] = useMutation(REGISTER_USER, {
-    onCompleted: data => {
-      handleRegister(data.register);
-    },
-    onError: error => {
-      setError(error.graphQLErrors[0].extensions.errors);
-      setModalVisible(true);
-      dispatch({
-        type: constants.REGISTER_FAIL,
-        payload: error.graphQLErrors[0].extensions.errors,
-      });
-    },
-    variables: {
-      username,
-      email,
-      password,
-    },
-  });
-
-  function addUser() {
-    registerUser();
-  }
 
   const RegisterError = () => (
     <Modal
@@ -249,7 +223,7 @@ export default function Register({ navigation }) {
         />
       </View>
       <View style={{ alignItems: 'center', paddingTop: height * 0.02 }}>
-        <TouchableOpacity onPress={() => registerUser()}>
+        <TouchableOpacity>
           <View
             style={{
               backgroundColor: '#eb5757',
@@ -267,7 +241,7 @@ export default function Register({ navigation }) {
                 paddingRight: 15,
                 fontFamily: 'Poppins-Bold',
               }}>
-              {loading ? 'SIGNING UP' : 'SIGN UP'}
+              SIGN UP
             </Text>
           </View>
         </TouchableOpacity>
@@ -375,24 +349,3 @@ export default function Register({ navigation }) {
     </View>
   );
 }
-
-const REGISTER_USER = gql`
-  mutation register($username: String!, $email: String!, $password: String!) {
-    register(
-      registerInput: { username: $username, email: $email, password: $password }
-    ) {
-      id
-      email
-      username
-      createdAt
-      token
-      address
-      phone
-      payments {
-        paymentType
-        paymentId
-      }
-      points
-    }
-  }
-`;

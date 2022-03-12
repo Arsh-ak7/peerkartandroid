@@ -1,19 +1,19 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   Text,
   StatusBar,
   Image,
-  ImageBackground,
   TouchableOpacity,
   TextInput,
   Modal,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import constants from '../redux/constants';
-import { gql, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Dimensions } from 'react-native';
+import axiosInstance from '../utils/axios';
 
 export default function Login({ navigation }) {
   const { width, height } = Dimensions.get('screen');
@@ -22,42 +22,11 @@ export default function Login({ navigation }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = async loginData => {
-    await AsyncStorage.setItem('jwtToken', JSON.stringify(loginData.token));
-    dispatch({
-      type: constants.LOGIN_SUCCESS,
-      payload: loginData,
-    });
-  };
-
-  const [userLogin, { loading }] = useMutation(LOGIN_USER, {
-    variables: {
-      username,
-      password,
-    },
-    onCompleted: data => {
-      handleLogin(data.login);
-      // dispatch({
-      //   type: constants.LOGIN_SUCCESS,
-      //   payload: data.login,
-      // });
-      // navigation.navigate('Home');
-    },
-    onError: error => {
-      setError(error.graphQLErrors[0].extensions.errors);
-      setModalVisible(true);
-      dispatch({
-        type: constants.LOGIN_FAIL,
-        payload: error.graphQLErrors[0].extensions.errors,
-      });
-    },
-  });
-
   const [modalVisible, setModalVisible] = useState(false);
 
-  const loginUser = () => {
-    userLogin();
-  };
+  useEffect(() => {
+    axiosInstance.get('/').then(res => console.log(res));
+  });
 
   const LoginError = () => (
     <Modal
@@ -227,7 +196,7 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={{ alignItems: 'center', paddingTop: height * 0.01 }}>
-        <TouchableOpacity onPress={() => loginUser()}>
+        <TouchableOpacity>
           <View
             style={{
               backgroundColor: '#eb5757',
@@ -245,7 +214,7 @@ export default function Login({ navigation }) {
                 paddingRight: 15,
                 fontFamily: 'Poppins-Bold',
               }}>
-              {loading ? 'LOGGING IN' : 'LOGIN'}
+              LOGIN
             </Text>
           </View>
         </TouchableOpacity>
@@ -353,22 +322,3 @@ export default function Login({ navigation }) {
     </View>
   );
 }
-
-const LOGIN_USER = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      id
-      email
-      username
-      createdAt
-      token
-      address
-      phone
-      payments {
-        paymentType
-        paymentId
-      }
-      points
-    }
-  }
-`;
