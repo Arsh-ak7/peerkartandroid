@@ -8,17 +8,89 @@ import {
   ScrollView,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import AddOrderName from '../components/AddOrderName';
+import AddOrderCategory from '../components/AddOrderCategory';
 
-export default function Cart() {
+export default function Cart({ navigation }) {
   const { height, width } = Dimensions.get('screen');
   const cart = useSelector(state => state.cart);
+  const [addNameModal, setAddNameModalVisible] = useState(false);
+  const [addOrderCategoryModal, setAddOrderCategoryModal] = useState(false);
   return (
     <View>
       {cart.items.length === 0 ? (
-        <View>
-          <Text>Cart is empty</Text>
+        <View style={{ height: '100%', width: '100%' }}>
+          <Image
+            source={require('../assets/images/emptycart.png')}
+            style={{ width: '100%', height: '40%', marginTop: height * 0.1 }}
+          />
+          <Text
+            style={{
+              color: 'black',
+              fontFamily: 'Poppins-Regular',
+              fontSize: 26,
+              textAlign: 'center',
+              paddingTop: height * 0.05,
+            }}>
+            AHH! Your cart is empty!
+          </Text>
+          <Text
+            style={{
+              color: 'black',
+              fontFamily: 'Poppins-Regular',
+              fontSize: 20,
+              textAlign: 'center',
+              paddingTop: 5,
+            }}>
+            You're making the reaper unhappy.
+          </Text>
+          <Text
+            style={{
+              color: 'black',
+              fontFamily: 'Poppins-Regular',
+              fontSize: 20,
+              textAlign: 'center',
+              paddingTop: 5,
+            }}>
+            Add something maybe?
+          </Text>
+          <View style={{ alignItems: 'center', paddingTop: height * 0.07 }}>
+            <TouchableOpacity onPress={() => setAddNameModalVisible(true)}>
+              <View
+                style={{
+                  backgroundColor: '#eb5757',
+                  width: width * 0.4,
+                  borderRadius: 10,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    color: 'white',
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                    paddingLeft: 15,
+                    paddingRight: 15,
+                    fontFamily: 'Poppins-Bold',
+                  }}>
+                  CREATE ORDER
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <AddOrderName
+            addNameModal={addNameModal}
+            setAddNameModalVisible={setAddNameModalVisible}
+            setAddCategoryModal={setAddOrderCategoryModal}
+          />
+          <AddOrderCategory
+            setAddNameModalVisible={setAddNameModalVisible}
+            addCategoryModal={addOrderCategoryModal}
+            setAddOrderCategory={setAddOrderCategoryModal}
+            navigation={navigation}
+          />
         </View>
       ) : (
         <View style={{ paddingLeft: width * 0.06, paddingRight: width * 0.06 }}>
@@ -71,9 +143,9 @@ export default function Cart() {
                     width: 0,
                     height: 1,
                   },
-                  shadowOpacity: 0.8,
-                  shadowRadius: 4.41,
-                  elevation: 2,
+                  shadowOpacity: 0.5,
+                  shadowRadius: 13.97,
+                  elevation: 21,
                   padding: 10,
                   marginTop: 20,
                   backgroundColor: 'white',
