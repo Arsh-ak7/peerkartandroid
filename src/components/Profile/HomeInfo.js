@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { Dimensions } from 'react-native';
@@ -23,9 +24,9 @@ export default function HomeInfo({ setAddPhoneModal }) {
             backgroundColor: 'white',
             position: 'absolute',
             top: height * 0.034,
-            borderRadius: 30,
+            borderRadius: 10,
 
-            shadowColor: '#005FB7',
+            shadowColor: '#eb5757',
             shadowOffset: {
               width: 0,
               height: 10,
@@ -103,11 +104,11 @@ export default function HomeInfo({ setAddPhoneModal }) {
                   width: '90%',
                   height: '80%',
                   backgroundColor: 'white',
-                  borderRadius: 30,
+                  borderRadius: 10,
 
                   alignItems: 'center',
                   //   justifyContent: 'center',
-                  shadowColor: '#005FB7',
+                  shadowColor: '#eb5757',
                   shadowOffset: {
                     width: 0,
                     height: 10,

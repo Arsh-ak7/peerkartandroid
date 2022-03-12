@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { View, Text, StatusBar, ImageBackground } from 'react-native';
 import React, { useRef, useState } from 'react';
 import HomeInfo from '../components/Profile/HomeInfo';

@@ -86,8 +86,8 @@ export default function AddressInfo() {
             height: height * 0.18,
             backgroundColor: 'white',
             position: 'absolute',
-            borderRadius: 30,
-            shadowColor: '#005FB7',
+            borderRadius: 10,
+            shadowColor: '#eb5757',
             alignItems: 'center',
             justifyContent: 'center',
             shadowOffset: {

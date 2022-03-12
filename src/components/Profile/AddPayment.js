@@ -96,7 +96,7 @@ export default function AddPayment({ setModalVisible }) {
               fontSize: 20,
             }}
           />
-          <Divider width={0.8} color="#EEE" />
+          <Divider width={0.8} color="#eb5757" />
         </View>
         <View style={{ paddingTop: 10, paddingBottom: 10 }}>
           <Text
@@ -117,7 +117,7 @@ export default function AddPayment({ setModalVisible }) {
               fontSize: 20,
             }}
           />
-          <Divider width={0.8} color="#EEE" />
+          <Divider width={0.8} color="#eb5757" />
         </View>
         <View
           style={{
@@ -128,8 +128,7 @@ export default function AddPayment({ setModalVisible }) {
             justifyContent: 'center',
 
             shadowColor: '#622493',
-            alignItems: 'center',
-            justifyContent: 'center',
+
             shadowOffset: {
               width: 0,
               height: 10,
@@ -146,16 +145,14 @@ export default function AddPayment({ setModalVisible }) {
               justifyContent: 'center',
               borderRadius: 30,
             }}>
-            <LinearGradient
-              colors={['#BB6BD9', '#BB6BD9', '#151A6A']}
-              start={{ x: 0, y: 1 }}
-              end={{ x: 1, y: 0 }}
+            <View
               style={{
                 height: '100%',
                 width: '100%',
                 borderRadius: 6,
                 alignItems: 'center',
                 justifyContent: 'center',
+                backgroundColor: '#eb5757',
               }}>
               <View
                 style={{
@@ -172,7 +169,7 @@ export default function AddPayment({ setModalVisible }) {
                   {loading ? 'ADDING UPI' : 'ADD UPI'}
                 </Text>
               </View>
-            </LinearGradient>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
