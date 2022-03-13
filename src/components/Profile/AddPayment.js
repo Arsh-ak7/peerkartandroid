@@ -1,21 +1,50 @@
+/* eslint-disable react-native/no-inline-styles */
 import { View, Text, StatusBar, TouchableOpacity } from 'react-native';
 import React from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { TextInput } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import { Dimensions } from 'react-native';
 import { Divider } from 'react-native-elements';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/client';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import constants from '../../redux/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import axiosInstance from '../../utils/axios';
+import { saveUserData } from '../../redux/actions/authActions';
 
 export default function AddPayment({ setModalVisible }) {
-  const { height, width } = Dimensions.get('screen');
+  const { height } = Dimensions.get('screen');
   const [paymentType, setBankName] = useState('');
-  const [paymentId, setUpiId] = useState('');
+  const [paymentId, setPaymentType] = useState('');
+  const [errors, setError] = useState();
+  const token = useSelector(state => state.auth.userData.token);
+  const userData = useSelector(state => state.auth.userData);
   const dispatch = useDispatch();
+
+  const updatePayment = () => {
+    axiosInstance
+      .put(
+        '/users/update',
+        {
+          paymentMethod: {
+            paymentType,
+            paymentId,
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then(res => {
+        const newData = res.data.data.paymentMethod;
+        const updatedData = {
+          ...userData,
+          paymentMethod: newData,
+        };
+        saveUserData(dispatch, updatedData);
+      })
+      .catch(err => console.log(err.data));
+  };
 
   return (
     <View
@@ -86,7 +115,7 @@ export default function AddPayment({ setModalVisible }) {
           </Text>
           <TextInput
             value={paymentId}
-            onChangeText={text => setUpiId(text)}
+            onChangeText={text => setPaymentType(text)}
             placeholder="1234 4567 7890"
             placeholderTextColor="#3e3e3e"
             style={{
@@ -115,6 +144,7 @@ export default function AddPayment({ setModalVisible }) {
             elevation: 21,
           }}>
           <TouchableOpacity
+            onPress={() => updatePayment()}
             style={{
               width: '95%',
               alignItems: 'center',

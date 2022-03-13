@@ -16,7 +16,6 @@ export const cartReducer = (state = initialState, action) => {
         itemQty: action.payload.qty,
         itemUnit: action.payload.unit,
       };
-      console.log(action.payload);
       const existingItem = state.items.find(
         item => item.itemName === action.payload.itemName,
       );

@@ -58,7 +58,7 @@ export default function HomeInfo({ setAddPhoneModal }) {
               }}>
               {userData.username}
             </Text>
-            {userData.phone ? (
+            {userData.contact.length < 0 ? (
               <Text
                 style={{
                   color: 'black',
@@ -67,7 +67,7 @@ export default function HomeInfo({ setAddPhoneModal }) {
 
                   fontFamily: 'Montserrat-Bold',
                 }}>
-                {userData.phone}
+                {userData.contact[0]}
               </Text>
             ) : (
               <TouchableOpacity onPress={() => setAddPhoneModal(true)}>

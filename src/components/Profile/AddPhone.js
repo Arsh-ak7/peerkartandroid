@@ -1,19 +1,41 @@
+/* eslint-disable react-native/no-inline-styles */
 import { View, Text, StatusBar, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { TextInput } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import { Dimensions } from 'react-native';
 import { Divider } from 'react-native-elements';
-import { gql } from 'graphql-tag';
-import { useMutation } from '@apollo/client';
 import { useDispatch, useSelector } from 'react-redux';
-import constants from '../../redux/constants';
+import axiosInstance from '../../utils/axios';
+import { saveUserData } from '../../redux/actions/authActions';
 
 export default function AddPhone({ setModalVisible }) {
-  const { height, width } = Dimensions.get('screen');
+  const { height } = Dimensions.get('screen');
   const [phone, setPhone] = useState();
+  const token = useSelector(state => state.auth.userData.token);
+  const userData = useSelector(state => state.auth.userData);
   const dispatch = useDispatch();
+
+  const updatePhone = async () => {
+    await axiosInstance
+      .put(
+        '/users/update',
+        { contact: phone },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then(res => {
+        const newData = res.data.data.contact;
+        const updatedData = {
+          ...userData,
+          contact: newData,
+        };
+        saveUserData(dispatch, updatedData);
+      });
+  };
 
   return (
     <View
@@ -90,6 +112,7 @@ export default function AddPhone({ setModalVisible }) {
             elevation: 21,
           }}>
           <TouchableOpacity
+            onPress={() => updatePhone()}
             style={{
               width: '95%',
               alignItems: 'center',

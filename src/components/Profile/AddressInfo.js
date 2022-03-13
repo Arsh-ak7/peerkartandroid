@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { View, Text } from 'react-native';
 import React, { useRef, useState } from 'react';
 import { Dimensions } from 'react-native';
@@ -21,7 +22,6 @@ export default function AddressInfo() {
   const isCarousel = useRef(null);
 
   const addressData = useSelector(state => state.auth.userData.address);
-
   const __renderItem = ({ item }) => {
     return (
       <View
@@ -64,7 +64,7 @@ export default function AddressInfo() {
             fontSize: 18,
             fontFamily: 'LibreBaskerville-Bold',
           }}>
-          {item}
+          {item.address}
         </Text>
       </View>
     );

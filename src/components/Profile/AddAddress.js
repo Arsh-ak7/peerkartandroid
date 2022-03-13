@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { View, Text, StatusBar, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -5,10 +6,12 @@ import { TextInput } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Dimensions } from 'react-native';
 import { Divider } from 'react-native-elements';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { gql } from 'graphql-tag';
 import { useMutation } from '@apollo/client';
 import constants from '../../redux/constants';
+import axiosInstance from '../../utils/axios';
+import { saveUserData } from '../../redux/actions/authActions';
 
 export default function AddAddress({ setModalVisible }) {
   const { height, width } = Dimensions.get('screen');
@@ -17,8 +20,9 @@ export default function AddAddress({ setModalVisible }) {
   const [addressLineThree, setAddressLineThree] = useState('');
   const [city, setCity] = useState('');
   const [postalCode, setPostalCode] = useState('');
-
   const dispatch = useDispatch();
+  const token = useSelector(state => state.auth.userData.token);
+  const userData = useSelector(state => state.auth.userData);
 
   const completeAddress = [
     addressLineOne,
@@ -26,7 +30,33 @@ export default function AddAddress({ setModalVisible }) {
     addressLineThree,
     city,
     postalCode,
-  ].join(' ');
+  ].join(', ');
+
+  const updateAddress = async () => {
+    const newAddress = {
+      address: completeAddress,
+    };
+    await axiosInstance
+      .put(
+        '/users/update',
+        { address: newAddress },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then(res => {
+        console.log(res.data.data);
+        const newData = res.data.data.address;
+        const updatedData = {
+          ...userData,
+          address: newData,
+        };
+        saveUserData(dispatch, updatedData);
+      })
+      .catch(err => console.log(err));
+  };
 
   return (
     <View
@@ -191,6 +221,7 @@ export default function AddAddress({ setModalVisible }) {
             elevation: 21,
           }}>
           <TouchableOpacity
+            onPress={() => updateAddress()}
             style={{
               width: '95%',
               alignItems: 'center',

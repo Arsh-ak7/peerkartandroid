@@ -22,7 +22,7 @@ export default function Profile() {
   const [addAddressModal, setAddAddresstModal] = useState(false);
   const [addPhoneModal, setAddPhoneModal] = useState(false);
   const userData = useSelector(state => state.auth.userData);
-
+  console.log(userData);
   const noPaymenstData = [
     { text: 'No Existing payment methods. Please add one.' },
   ];
@@ -308,7 +308,7 @@ export default function Profile() {
               sliderHeight={height}
               sliderWidth={width}
               itemWidth={width - 60}
-              data={userData.payments}
+              data={userData.paymentMethod}
               renderItem={renderItem}
             />
           ) : (

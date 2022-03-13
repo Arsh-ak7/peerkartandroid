@@ -34,8 +34,6 @@ export default function Home({ navigation }) {
     getOrders();
   }, []);
 
-  console.log(orders);
-
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <StatusBar
