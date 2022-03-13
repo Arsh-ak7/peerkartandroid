@@ -18,16 +18,7 @@ import { useState } from 'react';
 export default function Dashboard({ navigation }) {
   const { height, width } = Dimensions.get('screen');
   const userData = useSelector(state => state.auth.userData);
-  const [userOrders, setUserOrders] = useState();
-  const { loading, error, data } = useQuery(GET_USER_ORDERS, {
-    variables: {
-      userId: userData.username,
-    },
-  });
-
-  useEffect(() => {
-    data && data.getUserOrders && setUserOrders(data.getUserOrders);
-  }, [data]);
+  const [userOrders, setUserOrders] = useState([]);
 
   return (
     <View style={{ backgroundColor: 'white', flex: 1 }}>
@@ -373,32 +364,3 @@ export default function Dashboard({ navigation }) {
     </View>
   );
 }
-
-const GET_USER_ORDERS = gql`
-  query GetUserOrders($userId: ID!) {
-    getUserOrders(userId: $userId) {
-      ordersGenerated {
-        orderName
-        orderCategory
-        orderGeneratedBy
-        orderItems {
-          productName
-          productQty
-        }
-        points
-        orderAcceptedBy
-      }
-      ordersAccepted {
-        orderName
-        orderCategory
-        orderGeneratedBy
-        orderItems {
-          productName
-          productQty
-        }
-        points
-        orderAcceptedBy
-      }
-    }
-  }
-`;

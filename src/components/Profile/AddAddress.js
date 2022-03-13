@@ -28,26 +28,6 @@ export default function AddAddress({ setModalVisible }) {
     postalCode,
   ].join(' ');
 
-  const [updateAddress, { loading }] = useMutation(UPDATE_ADDRESS, {
-    variables: {
-      userDetailsInput: {
-        address: completeAddress,
-      },
-    },
-    onCompleted: data => {
-      dispatch({
-        type: constants.LOGIN_SUCCESS,
-        payload: data.updateUserDetails,
-      });
-      setModalVisible(false);
-    },
-    onError: err => console.log(err),
-  });
-
-  const handleAddressUpdate = () => {
-    updateAddress();
-  };
-
   return (
     <View
       style={{
@@ -211,7 +191,6 @@ export default function AddAddress({ setModalVisible }) {
             elevation: 21,
           }}>
           <TouchableOpacity
-            onPress={() => handleAddressUpdate()}
             style={{
               width: '95%',
               alignItems: 'center',
@@ -239,7 +218,7 @@ export default function AddAddress({ setModalVisible }) {
                     fontSize: 16,
                     fontFamily: 'OpenSans-Bold',
                   }}>
-                  {loading ? 'ADDING ADDRESS' : 'ADD ADDRESS'}
+                  ADD ADDRESS
                 </Text>
               </View>
             </View>
@@ -249,22 +228,3 @@ export default function AddAddress({ setModalVisible }) {
     </View>
   );
 }
-
-const UPDATE_ADDRESS = gql`
-  mutation Mutation($userDetailsInput: UserDetailsInput) {
-    updateUserDetails(userDetailsInput: $userDetailsInput) {
-      payments {
-        paymentType
-        paymentId
-      }
-      id
-      username
-      email
-      token
-      createdAt
-      address
-      points
-      phone
-    }
-  }
-`;

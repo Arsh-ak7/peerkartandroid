@@ -1,34 +1,40 @@
+/* eslint-disable react-native/no-inline-styles */
 import { View, Text, StatusBar, TouchableOpacity, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomModal from '../components/CustomModal';
 import OrderView from '../components/Home/OrderView';
 import { Dimensions } from 'react-native';
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/client';
 import { ScrollView } from 'react-native-gesture-handler';
 import AddOrderName from '../components/AddOrderName';
-import { useSelector } from 'react-redux';
 import AddOrderCategory from '../components/AddOrderCategory';
+import { useSelector } from 'react-redux';
+import axiosInstance from '../utils/axios';
 
 export default function Home({ navigation }) {
   const [token, setToken] = useState();
   const { height, width } = Dimensions.get('screen');
   const [orderViewModal, setOrderViewModal] = useState(false);
-  const { loading, data } = useQuery(GET_ORDERS);
   const [orderViewContent, setOrderViewContent] = useState(null);
   const [addNameModal, setAddNameModalVisible] = useState(false);
   const [addOrderCategoryModal, setAddOrderCategoryModal] = useState(false);
+  const data = [];
+  const [loading, setLoading] = useState(false);
+  const [orders, setOrders] = useState();
 
   useEffect(() => {
-    async function getCred() {
-      const token = await AsyncStorage.getItem('jwtToken').then(res => {
-        return res;
-      });
-      setToken(token);
+    async function getOrders() {
+      setLoading(true);
+      await axiosInstance
+        .get('/orders/?page=1')
+        .then(res => {
+          setLoading(false), setOrders(res.data.data);
+        })
+        .catch(err => console.log(err));
     }
-    getCred();
-  }, [token]);
+    getOrders();
+  }, []);
+
+  console.log(orders);
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -101,7 +107,8 @@ export default function Home({ navigation }) {
             {loading ? (
               <Text style={{ color: 'black' }}>Loading</Text>
             ) : (
-              data.getOrders.map((order, i) => (
+              orders &&
+              orders.map((order, i) => (
                 <TouchableOpacity
                   onPress={() => {
                     setOrderViewModal(true), setOrderViewContent(order);
@@ -150,7 +157,7 @@ export default function Home({ navigation }) {
                           textTransform: 'uppercase',
                           fontFamily: 'Poppins-SemiBold',
                         }}>
-                        {order.orderName}
+                        {order.name}
                       </Text>
                     </View>
                     <View
@@ -201,19 +208,3 @@ export default function Home({ navigation }) {
     </View>
   );
 }
-
-const GET_ORDERS = gql`
-  query GetOrders {
-    getOrders {
-      orderName
-      orderCategory
-      orderGeneratedBy
-      orderItems {
-        productName
-        productQty
-      }
-      points
-      orderAcceptedBy
-    }
-  }
-`;

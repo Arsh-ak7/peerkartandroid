@@ -295,7 +295,7 @@ export default function Profile() {
               PAYMENTS
             </Text>
           </View>
-          {userData.payments.length > 0 ? (
+          {userData.paymentMethod.length > 0 ? (
             <Carousel
               containerCustomStyle={{
                 width: width,

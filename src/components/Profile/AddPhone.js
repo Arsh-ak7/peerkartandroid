@@ -15,26 +15,6 @@ export default function AddPhone({ setModalVisible }) {
   const [phone, setPhone] = useState();
   const dispatch = useDispatch();
 
-  const [updatePayments, { loading }] = useMutation(UPDATE_PHONE, {
-    variables: {
-      userDetailsInput: {
-        phone,
-      },
-    },
-    onCompleted: data => {
-      dispatch({
-        type: constants.LOGIN_SUCCESS,
-        payload: data.updateUserDetails,
-      });
-      setModalVisible(false);
-    },
-    onError: err => console.log(err),
-  });
-
-  const handleUpdatePhone = () => {
-    updatePayments();
-  };
-
   return (
     <View
       style={{
@@ -110,7 +90,6 @@ export default function AddPhone({ setModalVisible }) {
             elevation: 21,
           }}>
           <TouchableOpacity
-            onPress={() => handleUpdatePhone()}
             style={{
               width: '95%',
               alignItems: 'center',
@@ -138,7 +117,7 @@ export default function AddPhone({ setModalVisible }) {
                     fontSize: 16,
                     fontFamily: 'OpenSans-Bold',
                   }}>
-                  {loading ? 'ADDING PHONE' : 'ADD PHONE'}
+                  ADD PHONE
                 </Text>
               </View>
             </View>
@@ -148,22 +127,3 @@ export default function AddPhone({ setModalVisible }) {
     </View>
   );
 }
-
-const UPDATE_PHONE = gql`
-  mutation Mutation($userDetailsInput: UserDetailsInput) {
-    updateUserDetails(userDetailsInput: $userDetailsInput) {
-      payments {
-        paymentType
-        paymentId
-      }
-      id
-      username
-      email
-      token
-      createdAt
-      address
-      points
-      phone
-    }
-  }
-`;

@@ -17,29 +17,6 @@ export default function AddPayment({ setModalVisible }) {
   const [paymentId, setUpiId] = useState('');
   const dispatch = useDispatch();
 
-  const [updatePayments, { loading }] = useMutation(UPDATE_PAYMENTS, {
-    variables: {
-      userDetailsInput: {
-        payments: {
-          paymentType: paymentType,
-          paymentId: paymentId,
-        },
-      },
-    },
-    onCompleted: data => {
-      dispatch({
-        type: constants.LOGIN_SUCCESS,
-        payload: data.updateUserDetails,
-      });
-      setModalVisible(false);
-    },
-    onError: err => console.log(err),
-  });
-
-  const handleUpdatePayments = () => {
-    updatePayments();
-  };
-
   return (
     <View
       style={{
@@ -138,7 +115,6 @@ export default function AddPayment({ setModalVisible }) {
             elevation: 21,
           }}>
           <TouchableOpacity
-            onPress={() => handleUpdatePayments()}
             style={{
               width: '95%',
               alignItems: 'center',
@@ -166,7 +142,7 @@ export default function AddPayment({ setModalVisible }) {
                     fontSize: 16,
                     fontFamily: 'OpenSans-Bold',
                   }}>
-                  {loading ? 'ADDING UPI' : 'ADD UPI'}
+                  ADD UPI{' '}
                 </Text>
               </View>
             </View>
@@ -176,22 +152,3 @@ export default function AddPayment({ setModalVisible }) {
     </View>
   );
 }
-
-const UPDATE_PAYMENTS = gql`
-  mutation Mutation($userDetailsInput: UserDetailsInput) {
-    updateUserDetails(userDetailsInput: $userDetailsInput) {
-      payments {
-        paymentType
-        paymentId
-      }
-      id
-      username
-      email
-      token
-      createdAt
-      address
-      points
-      phone
-    }
-  }
-`;

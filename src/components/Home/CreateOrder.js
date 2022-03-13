@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Dimensions } from 'react-native';
 import React from 'react';
@@ -12,9 +13,6 @@ export default function CreateOrder({ navigation }) {
   const [itemName, setItemName] = useState('');
   const [qty, setQty] = useState('1');
   const [unit, setUnit] = useState('Pieces');
-
-  const dp = useSelector(state => state.cart);
-  console.log(dp);
 
   const handleAddToCart = () => {
     addToCart(

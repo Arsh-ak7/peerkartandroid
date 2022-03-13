@@ -10,10 +10,7 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { Dimensions } from 'react-native';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import constants from '../redux/constants';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import axiosInstance from '../utils/axios';
 
 export default function Register({ navigation }) {
   const { height, width } = Dimensions.get('screen');
@@ -22,14 +19,25 @@ export default function Register({ navigation }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
-  const handleRegister = async registerData => {
-    await AsyncStorage.setItem('jwtToken', JSON.stringify(registerData.token));
-    dispatch({
-      type: constants.LOGIN_SUCCESS,
-      payload: registerData,
-    });
+  const handleRegister = () => {
+    setLoading(true);
+    axiosInstance
+      .post('/auth/signup', {
+        username,
+        email,
+        password,
+        confirmPassword: password,
+      })
+      .then(res => {
+        setLoading(false), navigation.navigate('Login');
+      })
+      .catch(error => {
+        setLoading(false);
+        setError({ error: error.response.data.error });
+        setModalVisible(true);
+      });
   };
 
   const RegisterError = () => (
@@ -223,7 +231,7 @@ export default function Register({ navigation }) {
         />
       </View>
       <View style={{ alignItems: 'center', paddingTop: height * 0.02 }}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => handleRegister()}>
           <View
             style={{
               backgroundColor: '#eb5757',
@@ -241,7 +249,7 @@ export default function Register({ navigation }) {
                 paddingRight: 15,
                 fontFamily: 'Poppins-Bold',
               }}>
-              SIGN UP
+              {loading ? 'SIGNING UP' : 'SIGN UP'}
             </Text>
           </View>
         </TouchableOpacity>

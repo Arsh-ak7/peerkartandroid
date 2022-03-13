@@ -14,20 +14,34 @@ import constants from '../redux/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Dimensions } from 'react-native';
 import axiosInstance from '../utils/axios';
+import axios from 'axios';
+import { saveUserData } from '../redux/actions/authActions';
 
 export default function Login({ navigation }) {
   const { width, height } = Dimensions.get('screen');
   const dispatch = useDispatch();
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
+  const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  useEffect(() => {
-    axiosInstance.get('/').then(res => console.log(res));
-  });
-
+  const handleLogin = () => {
+    setLoading(true);
+    axiosInstance
+      .post('/auth/login', {
+        email,
+        password,
+      })
+      .then(res => {
+        setLoading(false), saveUserData(dispatch, res.data);
+      })
+      .catch(error => {
+        setLoading(false);
+        setError({ error: error.response.data.error.msg });
+        setModalVisible(true);
+      });
+  };
   const LoginError = () => (
     <Modal
       animationType="fade"
@@ -75,6 +89,7 @@ export default function Login({ navigation }) {
                       fontFamily: 'Mulish-Bold',
                       textTransform: 'uppercase',
                       padding: 5,
+                      textAlign: 'center',
                     }}>
                     {value}
                   </Text>
@@ -137,7 +152,7 @@ export default function Login({ navigation }) {
             paddingBottom: 10,
             fontFamily: 'Montserrat-Bold',
           }}>
-          USERNAME
+          EMAIL{' '}
         </Text>
         <TextInput
           style={{
@@ -149,9 +164,9 @@ export default function Login({ navigation }) {
             color: 'black',
             paddingLeft: 10,
           }}
-          value={username}
-          placeholder="Username"
-          onChangeText={text => setUsername(text)}
+          value={email}
+          placeholder="Email"
+          onChangeText={text => setEmail(text)}
           placeholderTextColor={'black'}
         />
       </View>
@@ -196,7 +211,7 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={{ alignItems: 'center', paddingTop: height * 0.01 }}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => handleLogin()}>
           <View
             style={{
               backgroundColor: '#eb5757',
@@ -214,7 +229,7 @@ export default function Login({ navigation }) {
                 paddingRight: 15,
                 fontFamily: 'Poppins-Bold',
               }}>
-              LOGIN
+              {loading ? 'LOGGING IN' : 'LOG IN'}
             </Text>
           </View>
         </TouchableOpacity>
