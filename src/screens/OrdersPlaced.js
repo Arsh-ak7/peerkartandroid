@@ -1,17 +1,43 @@
-import { View, Text, StatusBar, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import { View, Text, StatusBar } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { Dimensions } from 'react-native';
 import Accordian from 'react-native-collapsible/Accordion';
+import axiosInstance from '../utils/axios';
+import { useSelector } from 'react-redux';
 
 export default function OrdersPlaced({ navigation, route }) {
   const { height, width } = Dimensions.get('screen');
-  const DATA = route.params.data;
   const [current, setCurrent] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [generatedOrders, setGeneratedOrders] = useState();
+  const token = useSelector(state => state.auth.userData.token);
+
+  useEffect(() => {
+    const fetchOrders = () => {
+      setLoading(true);
+      axiosInstance
+        .get('/users/orders/created?page=1', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(res => {
+          setGeneratedOrders(res.data.data);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error(err);
+          setLoading(false);
+        });
+    };
+    fetchOrders();
+  }, [token]);
 
   const renderSectionTitle = section => {
     return (
       <View>
-        <Text style={{ color: 'black' }}></Text>
+        <Text style={{ color: 'black' }}>Title</Text>
       </View>
     );
   };
@@ -35,7 +61,6 @@ export default function OrdersPlaced({ navigation, route }) {
         }}>
         <Text
           style={{
-            color: 'black',
             paddingLeft: 25,
             fontSize: 24,
             textTransform: 'uppercase',
@@ -111,15 +136,21 @@ export default function OrdersPlaced({ navigation, route }) {
           ORDERS PLACED
         </Text>
         <View style={{ width: '96%' }}>
-          <Accordian
-            sections={DATA}
-            underlayColor="white"
-            activeSections={current}
-            renderSectionTitle={renderSectionTitle}
-            renderHeader={renderHeader}
-            renderContent={renderContent}
-            onChange={updateSection}
-          />
+          {loading ? (
+            <Text style={{ color: 'black' }}>Loading</Text>
+          ) : (
+            generatedOrders && (
+              <Accordian
+                sections={generatedOrders}
+                underlayColor="white"
+                activeSections={current}
+                renderSectionTitle={renderSectionTitle}
+                renderHeader={renderHeader}
+                renderContent={renderContent}
+                onChange={updateSection}
+              />
+            )
+          )}
         </View>
       </View>
     </View>

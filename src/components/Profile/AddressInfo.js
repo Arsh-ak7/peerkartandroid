@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 import { Dimensions } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { useSelector } from 'react-redux';
+import Feather from 'react-native-vector-icons/Feather';
 
 export const SLIDER_WIDTH = Dimensions.get('window').width + 30;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH);
@@ -56,12 +57,16 @@ export default function AddressInfo() {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
+        <View style={{ width: '100%', alignItems: 'flex-end' }}>
+          <Feather color={'black'} size={26} name="edit-3" />
+        </View>
         <Text
           style={{
             color: 'black',
             textAlign: 'center',
             flexWrap: 'wrap',
             fontSize: 18,
+            paddingTop: 10,
             fontFamily: 'LibreBaskerville-Bold',
           }}>
           {item.address}

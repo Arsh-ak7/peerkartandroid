@@ -1,18 +1,9 @@
-import {
-  View,
-  Text,
-  StatusBar,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import { View, Text, StatusBar, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { Dimensions } from 'react-native';
 import { Divider } from 'react-native-elements';
 import { useSelector } from 'react-redux';
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/client';
-import { useEffect } from 'react';
 import { useState } from 'react';
 
 export default function Dashboard({ navigation }) {
@@ -258,11 +249,7 @@ export default function Dashboard({ navigation }) {
             alignItems: 'center',
             marginTop: 10,
           }}
-          onPress={() =>
-            navigation.navigate('OrdersPlaced', {
-              data: userOrders.ordersGenerated,
-            })
-          }>
+          onPress={() => navigation.navigate('OrdersPlaced')}>
           <View
             style={{
               width: '100%',
@@ -299,11 +286,7 @@ export default function Dashboard({ navigation }) {
             justifyContent: 'center',
             alignItems: 'center',
           }}
-          onPress={() =>
-            navigation.navigate('OrdersAccepted', {
-              data: userOrders.ordersAccepted,
-            })
-          }>
+          onPress={() => navigation.navigate('OrdersAccepted')}>
           <View
             style={{
               width: '100%',

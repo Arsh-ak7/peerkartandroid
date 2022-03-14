@@ -1,13 +1,40 @@
-import { View, Text, StatusBar, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import { View, Text, StatusBar } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { Dimensions } from 'react-native';
 import Accordian from 'react-native-collapsible/Accordion';
 import { Image } from 'react-native-elements';
+import axiosInstance from '../utils/axios';
+import { useSelector } from 'react-redux';
 
 export default function OrdersAccepted({ navigation, route }) {
-  const { height, width } = Dimensions.get('screen');
-  const DATA = route.params.data;
+  const { height } = Dimensions.get('screen');
+  // const DATA = route.params.data;
   const [current, setCurrent] = useState([]);
+  const [acceptedOrders, setAcceptedOrders] = useState();
+  const [loading, setLoading] = useState(false);
+  const token = useSelector(state => state.auth.userData.token);
+
+  useEffect(() => {
+    const fetchOrders = () => {
+      setLoading(true);
+      axiosInstance
+        .get('/users/orders/accepted?page=1', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(res => {
+          setAcceptedOrders(res.data.data);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error(err);
+          setLoading(false);
+        });
+    };
+    fetchOrders();
+  }, [token]);
 
   const renderSectionTitle = section => {
     return (
@@ -42,7 +69,6 @@ export default function OrdersAccepted({ navigation, route }) {
         />
         <Text
           style={{
-            color: 'black',
             paddingLeft: 25,
             fontSize: 24,
             textTransform: 'uppercase',
@@ -118,15 +144,21 @@ export default function OrdersAccepted({ navigation, route }) {
           ORDERS ACCEPTED
         </Text>
         <View style={{ width: '96%' }}>
-          <Accordian
-            sections={DATA}
-            underlayColor="white"
-            activeSections={current}
-            renderSectionTitle={renderSectionTitle}
-            renderHeader={renderHeader}
-            renderContent={renderContent}
-            onChange={updateSection}
-          />
+          {loading ? (
+            <Text style={{ color: 'black' }}>Loading</Text>
+          ) : (
+            acceptedOrders && (
+              <Accordian
+                sections={acceptedOrders}
+                underlayColor="white"
+                activeSections={current}
+                renderSectionTitle={renderSectionTitle}
+                renderHeader={renderHeader}
+                renderContent={renderContent}
+                onChange={updateSection}
+              />
+            )
+          )}
         </View>
       </View>
     </View>

@@ -81,7 +81,7 @@ export default function Profile() {
                 padding: 10,
                 paddingRight: 20,
               }}>
-              <Feather name="plus" size={26} color="white" />
+              <Feather name="edit-3" size={26} color="white" />
               <Text
                 style={{
                   paddingLeft: 5,
@@ -157,16 +157,7 @@ export default function Profile() {
                 padding: 10,
                 paddingRight: 20,
               }}>
-              <Feather name="plus" size={26} color="white" />
-              <Text
-                style={{
-                  paddingLeft: 5,
-                  fontSize: 20,
-                  color: 'white',
-                  fontFamily: 'Montserrat-Bold',
-                }}>
-                ADD / EDIT{' '}
-              </Text>
+              <Feather name="edit-3" size={26} color="white" />
             </TouchableOpacity>
           </View>
           <View style={{ paddingLeft: 20, marginTop: -height * 0.012 }}>
@@ -294,6 +285,28 @@ export default function Profile() {
               }}>
               PAYMENTS
             </Text>
+            <TouchableOpacity
+              onPress={() => setAddPaymentModal(true)}
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                // paddingRight: 20,
+                marginLeft: width * 0.1,
+              }}>
+              <View style={{ marginLeft: width * 0.2, flexDirection: 'row' }}>
+                <Feather name="plus" size={26} color="white" />
+                <Text
+                  style={{
+                    paddingLeft: 5,
+                    fontSize: 20,
+                    color: 'white',
+                    fontFamily: 'Montserrat-Bold',
+                  }}>
+                  ADD{' '}
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
           {userData.paymentMethod.length > 0 ? (
             <Carousel
@@ -332,9 +345,9 @@ export default function Profile() {
             style={{
               position: 'absolute',
               top: height * 0.5425,
-              width: '100%',
+              width: '90%',
               flexDirection: 'row',
-              justifyContent: 'space-evenly',
+              justifyContent: 'space-between',
               alignItems: 'center',
               paddingTop: height * 0.011,
               // left: width * 0.1,
@@ -345,6 +358,7 @@ export default function Profile() {
                 color: 'black',
                 fontSize: 22,
                 fontFamily: 'Montserrat-Bold',
+                marginLeft: width * 0.1,
               }}>
               ADDRESS
             </Text>
@@ -365,7 +379,7 @@ export default function Profile() {
                   color: 'black',
                   fontFamily: 'Montserrat-Bold',
                 }}>
-                ADD / EDIT{' '}
+                ADD
               </Text>
             </TouchableOpacity>
           </View>

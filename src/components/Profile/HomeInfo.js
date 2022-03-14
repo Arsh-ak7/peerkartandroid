@@ -58,7 +58,7 @@ export default function HomeInfo({ setAddPhoneModal }) {
               }}>
               {userData.username}
             </Text>
-            {userData.contact.length < 0 ? (
+            {userData.contact.length > 0 ? (
               <Text
                 style={{
                   color: 'black',
