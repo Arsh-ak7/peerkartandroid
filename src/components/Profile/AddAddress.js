@@ -47,7 +47,6 @@ export default function AddAddress({ setModalVisible }) {
         },
       )
       .then(res => {
-        console.log(res.data.data);
         const newData = res.data.data.address;
         const updatedData = {
           ...userData,

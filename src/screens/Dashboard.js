@@ -56,8 +56,8 @@ export default function Dashboard({ navigation }) {
             // top: height * 0.09,
             // marginTop: height * 0.03,
             backgroundColor: 'white',
-            borderRadius: 30,
-            shadowColor: '#000',
+            borderRadius: 10,
+            shadowColor: '#eb5757',
             shadowOffset: {
               width: 0,
               height: 1,
@@ -90,15 +90,14 @@ export default function Dashboard({ navigation }) {
             // top: height * 0.09,
             // marginTop: height * 0.03,
             backgroundColor: 'white',
-            borderRadius: 30,
-            shadowColor: '#000',
+            borderRadius: 10,
+            shadowColor: '#eb5757',
             shadowOffset: {
               width: 0,
               height: 1,
             },
             shadowOpacity: 0.2,
             shadowRadius: 8.22,
-
             elevation: 12,
             justifyContent: 'center',
             alignItems: 'center',
@@ -121,8 +120,8 @@ export default function Dashboard({ navigation }) {
         </View>
       </View>
       <Divider
-        color="#F5F4F4"
-        width={height * 0.01}
+        color="#eb575748"
+        width={height * 0.002}
         style={{ marginTop: height * 0.03 }}
       />
       {/* <ScrollView
@@ -234,7 +233,7 @@ export default function Dashboard({ navigation }) {
         <TouchableOpacity
           style={{
             width: '96%',
-            shadowColor: 'grey',
+            shadowColor: '#eb5757',
             shadowOffset: {
               width: 0,
               height: 10,
@@ -272,7 +271,7 @@ export default function Dashboard({ navigation }) {
           style={{
             width: '96%',
             marginTop: 10,
-            shadowColor: 'grey',
+            shadowColor: '#eb5757',
             shadowOffset: {
               width: 0,
               height: 10,
@@ -306,10 +305,11 @@ export default function Dashboard({ navigation }) {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={() => navigation.navigate('TransactionHistory')}
           style={{
             width: '96%',
             marginTop: 10,
-            shadowColor: 'grey',
+            shadowColor: '#eb5757',
             shadowOffset: {
               width: 0,
               height: 10,

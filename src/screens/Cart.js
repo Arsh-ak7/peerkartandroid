@@ -18,6 +18,7 @@ export default function Cart({ navigation }) {
   const cart = useSelector(state => state.cart);
   const [addNameModal, setAddNameModalVisible] = useState(false);
   const [addOrderCategoryModal, setAddOrderCategoryModal] = useState(false);
+
   return (
     <View>
       {cart.items.length === 0 ? (
@@ -223,7 +224,7 @@ export default function Cart({ navigation }) {
             ))}
           </ScrollView>
           <View style={{ alignItems: 'center', paddingTop: height * 0.01 }}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Checkout')}>
               <View
                 style={{
                   backgroundColor: '#eb5757',

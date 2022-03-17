@@ -1,39 +1,33 @@
 /* eslint-disable react-native/no-inline-styles */
-import { View, Text, StatusBar, ImageBackground } from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  TouchableOpacity,
+  ImageBackground,
+} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import React, { useRef, useState } from 'react';
-import HomeInfo from '../components/Profile/HomeInfo';
-import AddressInfo from '../components/Profile/AddressInfo';
-import { Dimensions } from 'react-native';
-import Carousel from 'react-native-snap-carousel';
-import { TouchableOpacity } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import CustomModal from '../components/CustomModal';
-import AddPayment from '../components/Profile/AddPayment';
 import { useSelector } from 'react-redux';
-import AddAddress from '../components/Profile/AddAddress';
-import AddPhone from '../components/Profile/AddPhone';
-import { useDispatch } from 'react-redux';
-import constants from '../redux/constants';
+import Carousel from 'react-native-snap-carousel';
+import Feather from 'react-native-vector-icons/Feather';
 
-export default function Profile() {
+export default function Checkout({ navigation }) {
   const { height, width } = Dimensions.get('screen');
-  const [addPaymentModal, setAddPaymentModal] = useState(false);
-  const [addAddressModal, setAddAddresstModal] = useState(false);
-  const [addPhoneModal, setAddPhoneModal] = useState(false);
   const userData = useSelector(state => state.auth.userData);
+  const address = useSelector(state => state.auth.userData.address[0].address);
 
   const noPaymenstData = [
     { text: 'No Existing payment methods. Please add one.' },
   ];
 
-  const carouselRef = useRef(null);
+  const carouselRef_checkout = useRef(null);
+
+  const [currIndex, setCurrIndex] = useState(0);
 
   const goForward = () => {
-    carouselRef.current.snapToNext();
+    carouselRef_checkout.current.snapToNext();
   };
-
-  const dispatch = useDispatch();
 
   const __renderItem = ({ item }) => {
     return (
@@ -73,7 +67,7 @@ export default function Profile() {
               justifyContent: 'flex-end',
             }}>
             <TouchableOpacity
-              onPress={() => setAddPaymentModal(true)}
+              //   onPress={() => setAddPaymentModal(true)}
               style={{
                 flexDirection: 'row',
                 justifyContent: 'center',
@@ -149,7 +143,7 @@ export default function Profile() {
               justifyContent: 'flex-end',
             }}>
             <TouchableOpacity
-              onPress={() => setAddPaymentModal(true)}
+              //   onPress={() => setAddPaymentModal(true)}
               style={{
                 flexDirection: 'row',
                 justifyContent: 'center',
@@ -210,130 +204,100 @@ export default function Profile() {
   };
 
   return (
-    <>
-      <View style={{ backgroundColor: 'white', flex: 1 }}>
-        <StatusBar
-          translucent
-          barStyle="light-content"
-          backgroundColor="transparent"
-        />
-        <ImageBackground
-          source={require('../assets/images/home.png')}
+    <View style={{ marginRight: width * 0.05 }}>
+      <View style={{ marginLeft: width * 0.05, marginTop: height * 0.075 }}>
+        <View>
+          <Ionicons name="arrow-back" color={'black'} size={36} />
+        </View>
+        <Text
           style={{
-            height: height * 0.5,
-            width: '100%',
-          }}
-        />
+            color: 'black',
+            fontFamily: 'Montserrat-Bold',
+            fontSize: 36,
+            marginLeft: width * 0.05,
+          }}>
+          Checkout
+        </Text>
+      </View>
+      <View style={{ marginRight: width * 0.075 }}>
+        <Text
+          style={{
+            color: 'black',
+            fontFamily: 'Poppins-Bold',
+            fontSize: 24,
+            marginLeft: width * 0.1,
+            marginTop: height * 0.02,
+          }}>
+          Delivery Address
+        </Text>
         <View
           style={{
-            position: 'absolute',
-            top: height * 0.06,
-            right: width * 0.06,
+            marginLeft: width * 0.1,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}>
-          <TouchableOpacity
-            onPress={() =>
-              dispatch({
-                type: constants.LOGOUT,
-              })
-            }>
-            <View>
-              <AntDesign name="logout" color={'white'} size={26} />
-            </View>
+          <Text
+            style={{
+              color: 'black',
+              width: '60%',
+              fontSize: 16,
+              fontFamily: 'Poppins-SemiBold',
+            }}>
+            {address}
+          </Text>
+          <TouchableOpacity>
+            <Ionicons name="radio-button-on" color={'black'} size={26} />
           </TouchableOpacity>
         </View>
-        <View
-          style={{
-            position: 'absolute',
-            top: '10%',
-            width: width,
-            flex: 1,
-          }}>
-          <HomeInfo setAddPhoneModal={setAddPhoneModal} />
-
-          {/*CODE FOR FLATLIST*/}
-
-          {/* <FlatList
-          data={DATA}
-          renderItem={__renderItem}
-          horizontal
-          keyExtractor={(item, index) => index}
-          style={{
-            width: '100%',
-            height: height * 0.34,
-            top: height * 0.23,
-            flex: 1,
-          }}
-        /> */}
-          {/* <PaymentInfo /> */}
-
-          {/* CODE FOR FLATLIST*/}
-          <View
-            style={{
-              position: 'absolute',
-              top: height * 0.2875,
-              width: '100%',
-              flexDirection: 'row',
-              //  justifyContent: 'space-between',
-              left: width * 0.1,
-              right: width * 0.1,
-            }}>
+        <View style={{ marginTop: height * 0.01 }}>
+          <TouchableOpacity style={{ marginLeft: width * 0.1 }}>
             <Text
               style={{
                 color: 'black',
-                fontSize: 22,
-                fontFamily: 'Montserrat-Bold',
+                fontFamily: 'Poppins-Bold',
+                fontSize: 16,
               }}>
-              PAYMENTS
+              CHANGE
             </Text>
-            <TouchableOpacity
-              onPress={() => setAddPaymentModal(true)}
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                // paddingRight: 20,
-                marginLeft: width * 0.1,
-              }}>
-              <View style={{ marginLeft: width * 0.2, flexDirection: 'row' }}>
-                <Feather name="plus" size={26} color="white" />
-                <Text
-                  style={{
-                    paddingLeft: 5,
-                    fontSize: 20,
-                    color: 'white',
-                    fontFamily: 'Montserrat-Bold',
-                  }}>
-                  ADD{' '}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
+        </View>
+        <View style={{ width: width }}>
+          <Text
+            style={{
+              marginLeft: width * 0.1,
+              marginTop: height * 0.01,
+              color: 'black',
+              fontFamily: 'Poppins-Bold',
+              fontSize: 24,
+            }}>
+            Payment Option
+          </Text>
           {userData.paymentMethod.length > 0 ? (
             <Carousel
               containerCustomStyle={{
-                width: width,
+                width: width * 0.9,
                 height: height * 0.34,
-                top: height * 0.34,
-                flex: 1,
+                top: height * 0.04,
               }}
               layout={'default'}
-              ref={carouselRef}
+              ref={carouselRef_checkout}
               sliderHeight={height}
               sliderWidth={width}
               itemWidth={width - 60}
               data={userData.paymentMethod}
               renderItem={renderItem}
+              onSnapToItem={idx => setCurrIndex(idx)}
             />
           ) : (
             <Carousel
               containerCustomStyle={{
                 width: width,
                 height: height * 0.34,
-                top: height * 0.34,
-                flex: 1,
+                top: height * 0.04,
               }}
               layout={'default'}
-              ref={carouselRef}
+              ref={carouselRef_checkout}
               sliderHeight={height}
               sliderWidth={width}
               itemWidth={width - 60}
@@ -341,66 +305,66 @@ export default function Profile() {
               renderItem={__renderItem}
             />
           )}
+        </View>
+      </View>
+      {/* <View
+        style={{
+          alignItems: 'center',
+          marginTop: -height * 0.025,
+          width: width,
+        }}>
+        <TouchableOpacity>
           <View
             style={{
-              position: 'absolute',
-              top: height * 0.5425,
-              width: '90%',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
+              backgroundColor: 'black',
+              width: width * 0.6,
+              borderRadius: 10,
               alignItems: 'center',
-              paddingTop: height * 0.011,
-              // left: width * 0.1,
-              // right: width * 0.1,
+              justifyContent: 'center',
             }}>
             <Text
               style={{
-                color: 'black',
-                fontSize: 22,
-                fontFamily: 'Montserrat-Bold',
-                marginLeft: width * 0.1,
+                color: 'white',
+                paddingTop: 10,
+                paddingBottom: 10,
+                paddingLeft: 15,
+                paddingRight: 15,
+                fontFamily: 'Poppins-Bold',
               }}>
-              ADDRESS
+              BACK
             </Text>
-            <TouchableOpacity
-              onPress={() => setAddAddresstModal(true)}
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                // paddingRight: 20,
-                marginLeft: width * 0.1,
-              }}>
-              <Feather name="plus" size={26} color="black" />
-              <Text
-                style={{
-                  paddingLeft: 5,
-                  fontSize: 20,
-                  color: 'black',
-                  fontFamily: 'Montserrat-Bold',
-                }}>
-                ADD
-              </Text>
-            </TouchableOpacity>
           </View>
-          <AddressInfo />
-        </View>
+        </TouchableOpacity>
+      </View> */}
+      <View
+        style={{
+          alignItems: 'center',
+          paddingTop: height * 0.01,
+          width: width,
+        }}>
+        <TouchableOpacity onPress={() => navigation.navigate('OrderPlaced')}>
+          <View
+            style={{
+              backgroundColor: '#eb5757',
+              width: width * 0.6,
+              borderRadius: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text
+              style={{
+                color: 'white',
+                paddingTop: 10,
+                paddingBottom: 10,
+                paddingLeft: 15,
+                paddingRight: 15,
+                fontFamily: 'Poppins-Bold',
+              }}>
+              PLACE ORDER
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
-      <CustomModal
-        modalVisible={addPaymentModal}
-        setModalVisible={setAddPaymentModal}
-        modalContent={<AddPayment setModalVisible={setAddPaymentModal} />}
-      />
-      <CustomModal
-        modalVisible={addAddressModal}
-        setModalVisible={setAddAddresstModal}
-        modalContent={<AddAddress setModalVisible={setAddAddresstModal} />}
-      />
-      <CustomModal
-        modalVisible={addPhoneModal}
-        setModalVisible={setAddPhoneModal}
-        modalContent={<AddPhone setModalVisible={setAddPhoneModal} />}
-      />
-    </>
+    </View>
   );
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -18,13 +19,16 @@ import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import OrdersPlaced from '../screens/OrdersPlaced';
-import { Text, View, Image } from 'react-native';
+import { View } from 'react-native';
 import GetStarted from '../screens/GetStarted';
 import Cart from '../screens/Cart';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import Checkout from '../screens/Checkout';
+import OrderPlaced from '../screens/OrderPlaced';
+import TransactionHistory from '../screens/TransactionHistory';
 
 export default function Routes() {
   const userData = useSelector(state => state.auth.userData);
+  const cartItems = useSelector(state => state.cart.items);
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
 
@@ -38,7 +42,10 @@ export default function Routes() {
         <Stack.Screen component={Dashboard} name="Dashboard" />
         <Stack.Screen component={OrdersAccepted} name="OrdersAccepted" />
         <Stack.Screen component={OrdersPlaced} name="OrdersPlaced" />
-        <Stack.Screen component={CreateOrder} name="CreateOrder" />
+        <Stack.Screen
+          component={TransactionHistory}
+          name="TransactionHistory"
+        />
       </Stack.Navigator>
     );
   }
@@ -50,6 +57,21 @@ export default function Routes() {
         initialRouteName="Home">
         <Stack.Screen component={Home} name="Home" />
         <Stack.Screen component={CreateOrder} name="CreateOrder" />
+      </Stack.Navigator>
+    );
+  }
+
+  function CartScreens() {
+    return (
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="Cart">
+        <Stack.Screen component={Cart} name="Cart" />
+        <Stack.Screen
+          component={cartItems.length > 0 ? Checkout : Cart}
+          name="Checkout"
+        />
+        <Stack.Screen component={OrderPlaced} name="OrderPlaced" />
       </Stack.Navigator>
     );
   }
@@ -136,8 +158,8 @@ export default function Routes() {
             }}
           />
           <Tab.Screen
-            name="Cart"
-            component={Cart}
+            name="CartScreens"
+            component={CartScreens}
             options={{
               tabBarIcon: ({ focused }) => (
                 <View

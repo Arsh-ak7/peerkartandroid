@@ -159,7 +159,7 @@ export default function CreateOrder({ navigation }) {
           </TouchableOpacity>
         </View>
         <View style={{ marginTop: height * 0.04, alignItems: 'center' }}>
-          <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
+          <TouchableOpacity onPress={() => navigation.navigate('CartScreens')}>
             <View
               style={{
                 backgroundColor: '#eb5757',

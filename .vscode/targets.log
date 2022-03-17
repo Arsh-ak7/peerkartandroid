@@ -6,8 +6,9 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
+ 
 
-# Make data base, printed on Mon Mar 14 18:36:58 2022
+# Make data base, printed on Wed Mar 16 20:44:11 2022
 
 # Variables
 
@@ -16,11 +17,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # automatic
 ?F = $(notdir $?)
 # environment
-ELECTRON_NO_ATTACH_CONSOLE = 1
-# environment
 PROVIDE_FULLSTACK_ACTION = true
-# environment
-LC_CTYPE = UTF-8
 # environment
 VSCODE_LOG_NATIVE = false
 # environment
@@ -46,9 +43,9 @@ VSCODE_VERBOSE_LOGGING = true
 # environment
 __CFBundleIdentifier = com.microsoft.VSCode
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/gt/qdp4l0fx5qs6fyk8mvn6jvm80000gn/T/vscode-ipc-1ab234a7-7054-4478-b434-8d82e797e468.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/gt/qdp4l0fx5qs6fyk8mvn6jvm80000gn/T/vscode-ipc-dc47c0ef-93f3-401c-aa3c-db16ce4b3a91.sock
 # environment
-VSCODE_CWD = /Users/arsh.kumar/arsh-personal/github/peerkartandroid
+VSCODE_CWD = /
 # environment
 PATH = /Users/arsh.kumar/.nvm/versions/node/v14.16.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/latest/bin:/Users/arsh.kumar/Library/Android/sdk/emulator:/Users/arsh.kumar/Library/Android/sdk/tools:/Users/arsh.kumar/Library/Android/sdk/tools/bin:/Users/arsh.kumar/Library/Android/sdk/platform-tools:/Library/PostgreSQL/14/bin
 # environment
@@ -57,6 +54,8 @@ GOLANG_EXECUTABLE = go
 THREE_SCALE_USER_TOKEN = 207c527cfc2a6b8dcf4fa43ad7a976da
 # environment
 NVM_BIN = /Users/arsh.kumar/.nvm/versions/node/v14.16.0/bin
+# environment
+LaunchInstanceID = 8945C3A3-363D-4A9D-A848-B621E770F717
 # environment
 VSCODE_LOG_STACK = false
 # environment
@@ -68,7 +67,7 @@ ANDROID_HOME = /Users/arsh.kumar/Library/Android/sdk
 # environment
 UUID = e83f09dd-491a-4c2a-b187-fb25bf686e96
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.fUkkiGs0BX/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.97bDE4iKTM/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
@@ -83,8 +82,6 @@ VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 HOME = /Users/arsh.kumar
 # default
 MAKEFILEPATH = $(shell /usr/bin/xcode-select -print-path 2>/dev/null || echo /Developer)/Makefiles
-# environment
-VSCODE_CLI = 1
 # environment
 VSCODE_CODE_CACHE_PATH = /Users/arsh.kumar/Library/Application Support/Code/CachedData/8908a9ca0f221f36507231afb39d2d8d1e182702
 # environment
@@ -106,23 +103,19 @@ MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
 # environment
-SHLVL = 3
+SHLVL = 1
 # default
 MAKE_VERSION := 3.81
 # environment
 USER = arsh.kumar
 # makefile
 .DEFAULT_GOAL := 
-# environment
-TERM_SESSION_ID = 7B477E7E-58BE-47DE-907F-4B952D7CAAC4
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # default
 MAKE_COMMAND := /Library/Developer/CommandLineTools/usr/bin/make
 # environment
 UTM_SOURCE = vscode
-# environment
-TERM_PROGRAM = Apple_Terminal
 # default
 .VARIABLES := 
 # environment
@@ -138,11 +131,9 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-TERM_PROGRAM_VERSION = 443
-# environment
 NVM_DIR = /Users/arsh.kumar/.nvm
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.2851188.2851194.A4CB1271-7DB1-49B7-B997-513E9D7C5D5F
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.2851188.2851194
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # environment
@@ -159,6 +150,8 @@ MAKEFILES :=
 <F = $(notdir $<)
 # environment
 LC_ALL = C
+# environment
+SECURITYSESSIONID = 186a3
 # automatic
 ^F = $(notdir $^)
 # default
@@ -170,11 +163,9 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-TERM = xterm-256color
-# environment
-VSCODE_PID = 38114
+VSCODE_PID = 462
 # variable set hash-table stats:
-# Load=81/1024=8%, Rehash=0, Collisions=2/102=2%
+# Load=76/1024=7%, Rehash=0, Collisions=2/97=2%
 
 # Pattern-specific Variable Values
 
@@ -256,7 +247,7 @@ GNUmakefile:
 # strcache size: total = 0 / max = 0 / min = 4096 / avg = 0
 # strcache free: total = 0 / max = 0 / min = 4096 / avg = 0
 
-# Finished Make data base on Mon Mar 14 18:36:58 2022
+# Finished Make data base on Wed Mar 16 20:44:11 2022
 
  
 make: *** No rule to make target `all'.  Stop.

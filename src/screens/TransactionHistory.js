@@ -1,17 +1,21 @@
 /* eslint-disable react-native/no-inline-styles */
-import { View, Text, StatusBar, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  StatusBar,
+  Dimensions,
+  Image,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { Dimensions } from 'react-native';
-import Accordian from 'react-native-collapsible/Accordion';
-import { Image } from 'react-native-elements';
 import axiosInstance from '../utils/axios';
 import { useSelector } from 'react-redux';
+import Accordian from 'react-native-collapsible/Accordion';
 
-export default function OrdersAccepted({ navigation, route }) {
+export default function TransactionHistory() {
   const { height, width } = Dimensions.get('screen');
-  // const DATA = route.params.data;
+  const [transactionHistory, setTransactionHistory] = useState();
   const [current, setCurrent] = useState([]);
-  const [acceptedOrders, setAcceptedOrders] = useState();
   const [loading, setLoading] = useState(false);
   const token = useSelector(state => state.auth.userData.token);
 
@@ -19,13 +23,13 @@ export default function OrdersAccepted({ navigation, route }) {
     const fetchOrders = () => {
       setLoading(true);
       axiosInstance
-        .get('/users/orders/accepted?page=1', {
+        .get('/users/activity?page=1', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then(res => {
-          setAcceptedOrders(res.data.data);
+          setTransactionHistory(res.data.data);
           setLoading(false);
         })
         .catch(err => {
@@ -35,14 +39,6 @@ export default function OrdersAccepted({ navigation, route }) {
     };
     fetchOrders();
   }, [token]);
-
-  const renderSectionTitle = section => {
-    return (
-      <View>
-        <Text style={{ color: 'black' }}></Text>
-      </View>
-    );
-  };
 
   const renderHeader = order => {
     return (
@@ -166,9 +162,7 @@ export default function OrdersAccepted({ navigation, route }) {
               paddingRight: 25,
             }}>
             ORDER ACCEPTED BY:{' '}
-            {section.acceptedBy === null
-              ? 'NONE'
-              : section.generatedBy.username}
+            {section.acceptedBy === null ? 'NONE' : section.acceptedBy}
           </Text>
         </View>
       </View>
@@ -179,12 +173,20 @@ export default function OrdersAccepted({ navigation, route }) {
     setCurrent(activeSections.includes(undefined) ? [] : activeSections);
   };
 
+  const renderSectionTitle = section => {
+    return (
+      <View>
+        <Text style={{ color: 'black' }}></Text>
+      </View>
+    );
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <StatusBar
         barStyle="dark-content"
         translucent
-        backgroundColor={'white'}
+        backgroundColor="transparent"
       />
       <View
         style={{
@@ -195,13 +197,13 @@ export default function OrdersAccepted({ navigation, route }) {
           style={{
             color: '#4F3A57',
             fontFamily: 'Montserrat-ExtraBold',
-            fontSize: 32,
+            fontSize: 26,
             textAlign: 'center',
             paddingBottom: 5,
           }}>
-          ORDERS ACCEPTED
+          TRANSACTION HISTORY
         </Text>
-        <View style={{ width: '96%' }}>
+        <View style={{ width: '92%' }}>
           {loading ? (
             <View
               style={{
@@ -212,9 +214,9 @@ export default function OrdersAccepted({ navigation, route }) {
               <ActivityIndicator size={'large'} color="#eb5757" />
             </View>
           ) : (
-            acceptedOrders && (
+            transactionHistory && (
               <Accordian
-                sections={acceptedOrders}
+                sections={transactionHistory}
                 underlayColor="white"
                 activeSections={current}
                 renderSectionTitle={renderSectionTitle}
