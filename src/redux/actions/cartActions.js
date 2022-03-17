@@ -41,3 +41,9 @@ export const addCategory = (dispatch, category) => {
     payload: category,
   });
 };
+
+export const resetCart = dispatch => {
+  dispatch({
+    type: constants.RESET_CART,
+  });
+};

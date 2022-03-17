@@ -17,7 +17,7 @@ const DATA = [
   },
 ];
 
-export default function AddressInfo() {
+export default function AddressInfo({ setCurrAddress }) {
   const { height, width } = Dimensions.get('screen');
   const [index, setIndex] = useState(0);
   const isCarousel = useRef(null);
@@ -109,7 +109,7 @@ export default function AddressInfo() {
             renderItem={renderItem}
             sliderWidth={width * 0.8}
             itemWidth={width}
-            onSnapToItem={index => setIndex(index)}
+            onSnapToItem={idx => setCurrAddress(addressData[idx])}
           />
           <Pagination
             dotsLength={addressData.length}

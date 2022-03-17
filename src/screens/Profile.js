@@ -22,6 +22,11 @@ export default function Profile() {
   const [addAddressModal, setAddAddresstModal] = useState(false);
   const [addPhoneModal, setAddPhoneModal] = useState(false);
   const userData = useSelector(state => state.auth.userData);
+  const [prefilledData, setPrefilledData] = useState(null);
+  const [currPayment, setCurrPayment] = useState(0);
+  const [currAddress, setCurrAddress] = useState(0);
+
+  console.log(currPayment);
 
   const noPaymenstData = [
     { text: 'No Existing payment methods. Please add one.' },
@@ -323,6 +328,7 @@ export default function Profile() {
               itemWidth={width - 60}
               data={userData.paymentMethod}
               renderItem={renderItem}
+              onSnapToItem={idx => setCurrPayment(userData.paymentMethod[idx])}
             />
           ) : (
             <Carousel
@@ -383,23 +389,38 @@ export default function Profile() {
               </Text>
             </TouchableOpacity>
           </View>
-          <AddressInfo />
+          <AddressInfo setCurrAddress={setCurrAddress} />
         </View>
       </View>
       <CustomModal
         modalVisible={addPaymentModal}
         setModalVisible={setAddPaymentModal}
-        modalContent={<AddPayment setModalVisible={setAddPaymentModal} />}
+        modalContent={
+          <AddPayment
+            setModalVisible={setAddPaymentModal}
+            prefilledData={currPayment}
+          />
+        }
       />
       <CustomModal
         modalVisible={addAddressModal}
         setModalVisible={setAddAddresstModal}
-        modalContent={<AddAddress setModalVisible={setAddAddresstModal} />}
+        modalContent={
+          <AddAddress
+            setModalVisible={setAddAddresstModal}
+            prefilledData={currAddress}
+          />
+        }
       />
       <CustomModal
         modalVisible={addPhoneModal}
         setModalVisible={setAddPhoneModal}
-        modalContent={<AddPhone setModalVisible={setAddPhoneModal} />}
+        modalContent={
+          <AddPhone
+            setModalVisible={setAddPhoneModal}
+            prefilledData={prefilledData}
+          />
+        }
       />
     </>
   );

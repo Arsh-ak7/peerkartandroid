@@ -181,7 +181,7 @@ export default function Cart({ navigation }) {
                         textTransform: 'uppercase',
                         fontFamily: 'Poppins-SemiBold',
                       }}>
-                      {item.itemName}
+                      {item.name}
                     </Text>
                   </View>
                   <View
@@ -198,7 +198,7 @@ export default function Cart({ navigation }) {
                         textTransform: 'uppercase',
                         fontFamily: 'Poppins-SemiBold',
                       }}>
-                      {item.itemQty}
+                      {item.qty}
                     </Text>
                   </View>
                   <TouchableOpacity

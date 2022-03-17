@@ -19,7 +19,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import OrdersPlaced from '../screens/OrdersPlaced';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import GetStarted from '../screens/GetStarted';
 import Cart from '../screens/Cart';
 import Checkout from '../screens/Checkout';
@@ -31,6 +31,9 @@ export default function Routes() {
   const cartItems = useSelector(state => state.cart.items);
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
+
+  const cartCount = useSelector(state => state.cart.items);
+  console.log(cartCount.length);
 
   function DashboardScreens() {
     return (
@@ -166,8 +169,33 @@ export default function Routes() {
                   style={{
                     justifyContent: 'center',
                     alignItems: 'center',
+                    position: 'relative',
                   }}>
                   <FontAwesome name="opencart" size={25} color="#4F3A57" />
+                  {cartCount.length > 0 ? (
+                    <View
+                      style={{
+                        position: 'absolute',
+                        backgroundColor: '#eb5757',
+                        width: 16,
+                        height: 16,
+                        borderRadius: 15 / 2,
+                        right: 0,
+                        top: 0,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      <Text
+                        style={{
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#FFFFFF',
+                          fontSize: 8,
+                        }}>
+                        {cartCount.length}
+                      </Text>
+                    </View>
+                  ) : null}
                 </View>
               ),
             }}

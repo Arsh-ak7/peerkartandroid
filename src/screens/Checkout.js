@@ -8,14 +8,22 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import React, { useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
 import Feather from 'react-native-vector-icons/Feather';
+import axiosInstance from '../utils/axios';
+import { resetCart } from '../redux/actions/cartActions';
 
 export default function Checkout({ navigation }) {
   const { height, width } = Dimensions.get('screen');
   const userData = useSelector(state => state.auth.userData);
   const address = useSelector(state => state.auth.userData.address[0].address);
+  const cart = useSelector(state => state.cart);
+  const [currAddress, setCurrAddress] = useState(userData.address[0]);
+  const [paymentOption, setPaymentOption] = useState(userData.paymentMethod[0]);
+  const dispatch = useDispatch();
+
+  console.log(cart);
 
   const noPaymenstData = [
     { text: 'No Existing payment methods. Please add one.' },
@@ -23,10 +31,30 @@ export default function Checkout({ navigation }) {
 
   const carouselRef_checkout = useRef(null);
 
-  const [currIndex, setCurrIndex] = useState(0);
-
   const goForward = () => {
     carouselRef_checkout.current.snapToNext();
+  };
+
+  const handleOrderPlaced = () => {
+    axiosInstance
+      .post(
+        '/orders',
+        {
+          name: cart.name,
+          category: cart.category,
+          items: cart.items,
+          paymentMethod: paymentOption,
+          address: currAddress,
+          contact: userData.contact[0],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+          },
+        },
+      )
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
   };
 
   const __renderItem = ({ item }) => {
@@ -287,7 +315,9 @@ export default function Checkout({ navigation }) {
               itemWidth={width - 60}
               data={userData.paymentMethod}
               renderItem={renderItem}
-              onSnapToItem={idx => setCurrIndex(idx)}
+              onSnapToItem={idx =>
+                setPaymentOption(userData.paymentMethod[idx])
+              }
             />
           ) : (
             <Carousel
@@ -342,7 +372,12 @@ export default function Checkout({ navigation }) {
           paddingTop: height * 0.01,
           width: width,
         }}>
-        <TouchableOpacity onPress={() => navigation.navigate('OrderPlaced')}>
+        <TouchableOpacity
+          onPress={() => {
+            handleOrderPlaced();
+            resetCart(dispatch);
+            navigation.navigate('OrderPlaced');
+          }}>
           <View
             style={{
               backgroundColor: '#eb5757',

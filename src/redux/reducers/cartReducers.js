@@ -12,9 +12,9 @@ export const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case constants.ADD_TO_CART:
       const item = {
-        itemName: action.payload.itemName,
-        itemQty: action.payload.qty,
-        itemUnit: action.payload.unit,
+        name: action.payload.itemName,
+        qty: action.payload.qty,
+        unit: action.payload.unit,
       };
       const existingItem = state.items.find(
         item => item.itemName === action.payload.itemName,
@@ -22,8 +22,8 @@ export const cartReducer = (state = initialState, action) => {
 
       if (existingItem !== undefined) {
         const newList = state.items.map(item =>
-          item.itemName === action.payload.itemName
-            ? (item.itemQty = action.payload.itemQty)
+          item.name === action.payload.itemName
+            ? (item.qty = action.payload.itemQty)
             : item,
         );
         return {
@@ -38,7 +38,7 @@ export const cartReducer = (state = initialState, action) => {
       }
     case constants.REMOVE_FROM_CART:
       const remItems = state.cart.filter(
-        item => action.payload.itemName !== item.itemName,
+        item => action.payload.itemName !== item.name,
       );
       return {
         ...state,
@@ -53,6 +53,15 @@ export const cartReducer = (state = initialState, action) => {
       return {
         ...state,
         category: action.payload,
+      };
+    case constants.RESET_CART:
+      return {
+        ...state,
+        name: '',
+        category: '',
+        items: [],
+        address: {},
+        payment: {},
       };
     default:
       return state;

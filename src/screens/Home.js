@@ -7,7 +7,6 @@ import { Dimensions } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import AddOrderName from '../components/AddOrderName';
 import AddOrderCategory from '../components/AddOrderCategory';
-import { useSelector } from 'react-redux';
 import axiosInstance from '../utils/axios';
 
 export default function Home({ navigation }) {
