@@ -15,18 +15,23 @@ import AddAddress from '../components/Profile/AddAddress';
 import AddPhone from '../components/Profile/AddPhone';
 import { useDispatch } from 'react-redux';
 import constants from '../redux/constants';
+import EditPhone from '../components/Profile/EditPhone';
+import EditAddress from '../components/Profile/EditAddress';
+import EditPayment from '../components/Profile/EditPayment';
 
 export default function Profile() {
   const { height, width } = Dimensions.get('screen');
   const [addPaymentModal, setAddPaymentModal] = useState(false);
   const [addAddressModal, setAddAddresstModal] = useState(false);
   const [addPhoneModal, setAddPhoneModal] = useState(false);
-  const userData = useSelector(state => state.auth.userData);
-  const [prefilledData, setPrefilledData] = useState(null);
-  const [currPayment, setCurrPayment] = useState(0);
-  const [currAddress, setCurrAddress] = useState(0);
 
-  console.log(currPayment);
+  const [editPhone, setEditPhone] = useState(false);
+  const [editAddress, setEditAddress] = useState(false);
+  const [editPayment, setEditPayment] = useState(false);
+
+  const userData = useSelector(state => state.auth.userData);
+  const [currPayment, setCurrPayment] = useState(userData.paymentMethod[0]);
+  const [currAddress, setCurrAddress] = useState(userData.address[0]);
 
   const noPaymenstData = [
     { text: 'No Existing payment methods. Please add one.' },
@@ -154,7 +159,7 @@ export default function Profile() {
               justifyContent: 'flex-end',
             }}>
             <TouchableOpacity
-              onPress={() => setAddPaymentModal(true)}
+              onPress={() => setEditPayment(true)}
               style={{
                 flexDirection: 'row',
                 justifyContent: 'center',
@@ -389,37 +394,44 @@ export default function Profile() {
               </Text>
             </TouchableOpacity>
           </View>
-          <AddressInfo setCurrAddress={setCurrAddress} />
+          <AddressInfo
+            setCurrAddress={setCurrAddress}
+            setEditAddress={setEditAddress}
+          />
         </View>
       </View>
       <CustomModal
         modalVisible={addPaymentModal}
         setModalVisible={setAddPaymentModal}
-        modalContent={
-          <AddPayment
-            setModalVisible={setAddPaymentModal}
-            prefilledData={currPayment}
-          />
-        }
+        modalContent={<AddPayment setModalVisible={setAddPaymentModal} />}
       />
       <CustomModal
         modalVisible={addAddressModal}
         setModalVisible={setAddAddresstModal}
-        modalContent={
-          <AddAddress
-            setModalVisible={setAddAddresstModal}
-            prefilledData={currAddress}
-          />
-        }
+        modalContent={<AddAddress setModalVisible={setAddAddresstModal} />}
       />
       <CustomModal
         modalVisible={addPhoneModal}
         setModalVisible={setAddPhoneModal}
+        modalContent={<AddPhone setModalVisible={setAddPhoneModal} />}
+      />
+      <CustomModal
+        modalVisible={editPhone}
+        setModalVisible={setEditPhone}
+        modalContent={<EditPhone setModalVisible={setEditPhone} />}
+      />
+      <CustomModal
+        modalVisible={editAddress}
+        setModalVisible={setEditAddress}
         modalContent={
-          <AddPhone
-            setModalVisible={setAddPhoneModal}
-            prefilledData={prefilledData}
-          />
+          <EditAddress setModalVisible={setEditAddress} data={currAddress} />
+        }
+      />
+      <CustomModal
+        modalVisible={editPayment}
+        setModalVisible={setEditPayment}
+        modalContent={
+          <EditPayment setModalVisible={setEditPayment} data={currPayment} />
         }
       />
     </>

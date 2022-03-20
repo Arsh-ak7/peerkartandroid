@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import React, { useRef, useState } from 'react';
 import { Dimensions } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -17,7 +17,7 @@ const DATA = [
   },
 ];
 
-export default function AddressInfo({ setCurrAddress }) {
+export default function AddressInfo({ setCurrAddress, setEditAddress }) {
   const { height, width } = Dimensions.get('screen');
   const [index, setIndex] = useState(0);
   const isCarousel = useRef(null);
@@ -57,9 +57,13 @@ export default function AddressInfo({ setCurrAddress }) {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <View style={{ width: '100%', alignItems: 'flex-end' }}>
-          <Feather color={'black'} size={26} name="edit-3" />
-        </View>
+        <TouchableOpacity
+          onPress={() => setEditAddress(true)}
+          style={{ alignSelf: 'flex-end' }}>
+          <View style={{ width: '100%', alignItems: 'flex-end' }}>
+            <Feather color={'black'} size={26} name="edit-3" />
+          </View>
+        </TouchableOpacity>
         <Text
           style={{
             color: 'black',

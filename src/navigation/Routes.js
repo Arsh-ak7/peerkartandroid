@@ -25,6 +25,7 @@ import Cart from '../screens/Cart';
 import Checkout from '../screens/Checkout';
 import OrderPlaced from '../screens/OrderPlaced';
 import TransactionHistory from '../screens/TransactionHistory';
+import Tracking from '../screens/Tracking';
 
 export default function Routes() {
   const userData = useSelector(state => state.auth.userData);
@@ -202,7 +203,7 @@ export default function Routes() {
           />
           <Tab.Screen
             name="Tracker"
-            component={Dashboard}
+            component={Tracking}
             options={{
               tabBarIcon: ({ focused }) => (
                 <View
