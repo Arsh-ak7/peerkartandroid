@@ -12,23 +12,25 @@ export const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case constants.ADD_TO_CART:
       const item = {
-        name: action.payload.itemName,
+        name: action.payload.name,
         qty: action.payload.qty,
         unit: action.payload.unit,
       };
       const existingItem = state.items.find(
-        item => item.itemName === action.payload.itemName,
+        item => item.name === action.payload.name,
       );
-
       if (existingItem !== undefined) {
-        const newList = state.items.map(item =>
-          item.name === action.payload.itemName
-            ? (item.qty = action.payload.itemQty)
-            : item,
-        );
         return {
           ...state,
-          items: newList,
+          items: state.items.map(item =>
+            item.name === action.payload.name
+              ? {
+                  ...item,
+                  qty: action.payload.qty,
+                  unit: action.payload.unit,
+                }
+              : item,
+          ),
         };
       } else {
         return {
@@ -37,12 +39,12 @@ export const cartReducer = (state = initialState, action) => {
         };
       }
     case constants.REMOVE_FROM_CART:
-      const remItems = state.cart.filter(
-        item => action.payload.itemName !== item.name,
+      const remItems = state.items.filter(
+        item => action.payload.name !== item.name,
       );
       return {
         ...state,
-        cart: remItems,
+        items: remItems,
       };
     case constants.ADD_ORDER_NAME:
       return {

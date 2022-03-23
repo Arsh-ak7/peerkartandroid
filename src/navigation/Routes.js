@@ -26,6 +26,7 @@ import Checkout from '../screens/Checkout';
 import OrderPlaced from '../screens/OrderPlaced';
 import TransactionHistory from '../screens/TransactionHistory';
 import Tracking from '../screens/Tracking';
+import EditOrder from '../components/EditOrder';
 
 export default function Routes() {
   const userData = useSelector(state => state.auth.userData);
@@ -76,6 +77,7 @@ export default function Routes() {
           name="Checkout"
         />
         <Stack.Screen component={OrderPlaced} name="OrderPlaced" />
+        <Stack.Screen component={EditOrder} name="EditOrder" />
       </Stack.Navigator>
     );
   }

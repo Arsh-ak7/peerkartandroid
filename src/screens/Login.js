@@ -8,13 +8,10 @@ import {
   TextInput,
   Modal,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import constants from '../redux/constants';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Dimensions } from 'react-native';
 import axiosInstance from '../utils/axios';
-import axios from 'axios';
 import { saveUserData } from '../redux/actions/authActions';
 
 export default function Login({ navigation }) {
@@ -38,6 +35,7 @@ export default function Login({ navigation }) {
       })
       .catch(error => {
         setLoading(false);
+        console.log(error.response.data);
         setError({ error: error.response.data.error.msg });
         setModalVisible(true);
       });

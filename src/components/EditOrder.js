@@ -4,15 +4,17 @@ import { Dimensions } from 'react-native';
 import React from 'react';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { useDispatch } from 'react-redux';
-import { addToCart } from '../../redux/actions/cartActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../redux/actions/cartActions';
 
-export default function CreateOrder({ navigation }) {
-  const dispatch = useDispatch();
+export default function EditOrder({ navigation, route }) {
+  const currItem = route.params;
   const { height, width } = Dimensions.get('screen');
-  const [name, setItemName] = useState('');
-  const [qty, setQty] = useState('1');
-  const [unit, setUnit] = useState('Pieces');
+  const [name, setItemName] = useState(currItem.name);
+  const [qty, setQty] = useState(currItem.qty);
+  const [unit, setUnit] = useState(currItem.unit);
+
+  const dispatch = useDispatch();
 
   const handleAddToCart = () => {
     addToCart(
@@ -23,6 +25,7 @@ export default function CreateOrder({ navigation }) {
         unit,
       }),
     );
+    navigation.navigate('Cart');
   };
 
   return (
@@ -34,7 +37,7 @@ export default function CreateOrder({ navigation }) {
             fontSize: 32,
             color: 'black',
           }}>
-          Create your order!
+          Edit Item!
         </Text>
       </View>
       <View>
@@ -159,7 +162,7 @@ export default function CreateOrder({ navigation }) {
           </TouchableOpacity>
         </View>
         <View style={{ marginTop: height * 0.04, alignItems: 'center' }}>
-          <TouchableOpacity onPress={() => navigation.navigate('CartScreens')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
             <View
               style={{
                 backgroundColor: '#eb5757',

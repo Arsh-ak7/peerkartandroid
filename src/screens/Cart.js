@@ -9,15 +9,18 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AddOrderName from '../components/AddOrderName';
 import AddOrderCategory from '../components/AddOrderCategory';
+import { removeFromCart } from '../redux/actions/cartActions';
 
 export default function Cart({ navigation }) {
   const { height, width } = Dimensions.get('screen');
   const cart = useSelector(state => state.cart);
   const [addNameModal, setAddNameModalVisible] = useState(false);
   const [addOrderCategoryModal, setAddOrderCategoryModal] = useState(false);
+  const dispatch = useDispatch();
+  console.log(cart);
 
   return (
     <View>
@@ -202,6 +205,7 @@ export default function Cart({ navigation }) {
                     </Text>
                   </View>
                   <TouchableOpacity
+                    onPress={() => navigation.navigate('EditOrder', item)}
                     style={{ alignItems: 'center', justifyContent: 'center' }}>
                     <View style={{ padding: 5, paddingBottom: 10 }}>
                       <Image
@@ -211,6 +215,7 @@ export default function Cart({ navigation }) {
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity
+                    onPress={() => removeFromCart(dispatch, item)}
                     style={{ alignItems: 'center', justifyContent: 'center' }}>
                     <View style={{ padding: 5, paddingBottom: 10 }}>
                       <Image
