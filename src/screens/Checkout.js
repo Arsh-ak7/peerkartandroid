@@ -234,9 +234,11 @@ export default function Checkout({ navigation }) {
   return (
     <View style={{ marginRight: width * 0.05 }}>
       <View style={{ marginLeft: width * 0.05, marginTop: height * 0.075 }}>
-        <View>
-          <Ionicons name="arrow-back" color={'black'} size={36} />
-        </View>
+        <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
+          <View>
+            <Ionicons name="arrow-back" color={'black'} size={36} />
+          </View>
+        </TouchableOpacity>
         <Text
           style={{
             color: 'black',
@@ -337,35 +339,6 @@ export default function Checkout({ navigation }) {
           )}
         </View>
       </View>
-      {/* <View
-        style={{
-          alignItems: 'center',
-          marginTop: -height * 0.025,
-          width: width,
-        }}>
-        <TouchableOpacity>
-          <View
-            style={{
-              backgroundColor: 'black',
-              width: width * 0.6,
-              borderRadius: 10,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text
-              style={{
-                color: 'white',
-                paddingTop: 10,
-                paddingBottom: 10,
-                paddingLeft: 15,
-                paddingRight: 15,
-                fontFamily: 'Poppins-Bold',
-              }}>
-              BACK
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View> */}
       <View
         style={{
           alignItems: 'center',
