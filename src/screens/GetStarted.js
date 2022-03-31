@@ -23,7 +23,15 @@ export default function GetStarted({ navigation }) {
           top: height * 0.075,
         }}>
         <View style={{ alignItems: 'center' }}>
-          <Text>LOGO</Text>
+          <Image
+            source={require('../assets/images/logop.png')}
+            height={48}
+            width={48}
+            style={{
+              height: 80,
+              width: 180,
+            }}
+          />
         </View>
         <View
           style={{

@@ -53,6 +53,7 @@ export default function AddAddress({ setModalVisible }) {
           address: newData,
         };
         saveUserData(dispatch, updatedData);
+        setModalVisible(false);
       })
       .catch(err => console.log(err));
   };

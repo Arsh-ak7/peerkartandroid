@@ -9,9 +9,28 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import React from 'react';
 import { Dimensions } from 'react-native';
+import axiosInstance from '../../utils/axios';
+import { useSelector } from 'react-redux';
 
 export default function OrderView({ setModalVisible, orderDetails }) {
   const { height, width } = Dimensions.get('screen');
+  const token = useSelector(state => state.auth.userData.token);
+  const handleOrderAccept = async () => {
+    await axiosInstance
+      .put(
+        '/orders/' + orderDetails._id + '/accept',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then(res => {
+        setModalVisible(false);
+      })
+      .catch(err => console.log(err.response.data));
+  };
   return (
     <View
       style={{
@@ -28,7 +47,7 @@ export default function OrderView({ setModalVisible, orderDetails }) {
         <View
           style={{
             backgroundColor: 'white',
-            height: '60%',
+            height: '70%',
             width: '96%',
             borderRadius: 10,
           }}>
@@ -120,7 +139,24 @@ export default function OrderView({ setModalVisible, orderDetails }) {
               ))}
             </ScrollView>
           </View>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingBottom: 35,
+            }}>
+            <Text
+              style={{
+                color: 'black',
+                fontFamily: 'Rubik-Medium',
+                textTransform: 'uppercase',
+                fontSize: 18,
+              }}>
+              Delivery Address: {orderDetails.address.address}
+            </Text>
+          </View>
           <TouchableOpacity
+            onPress={() => handleOrderAccept()}
             style={{
               alignItems: 'center',
               justifyContent: 'center',

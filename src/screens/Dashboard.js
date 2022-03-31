@@ -1,15 +1,60 @@
 /* eslint-disable react-native/no-inline-styles */
 import { View, Text, StatusBar, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions } from 'react-native';
 import { Divider } from 'react-native-elements';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import axiosInstance from '../utils/axios';
 
 export default function Dashboard({ navigation }) {
   const { height, width } = Dimensions.get('screen');
-  const userData = useSelector(state => state.auth.userData);
-  const [userOrders, setUserOrders] = useState([]);
+
+  const token = useSelector(state => state.auth.userData.token);
+  const [acceptedOrders, setAcceptedOrders] = useState();
+  const [loading, setLoading] = useState();
+
+  useEffect(() => {
+    const fetchOrders = () => {
+      setLoading(true);
+      axiosInstance
+        .get('/users/orders/accepted?page=1', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(res => {
+          setAcceptedOrders(res.data.data);
+          setLoading(false);
+        })
+        .catch(err => {
+          setLoading(false);
+        });
+    };
+    fetchOrders();
+  }, [token]);
+
+  const [generatedOrders, setGeneratedOrders] = useState();
+
+  useEffect(() => {
+    const fetchOrders = () => {
+      setLoading(true);
+      axiosInstance
+        .get('/users/orders/created?page=1', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(res => {
+          setGeneratedOrders(res.data.data);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error(err);
+          setLoading(false);
+        });
+    };
+    fetchOrders();
+  }, [token]);
 
   return (
     <View style={{ backgroundColor: 'white', flex: 1 }}>
@@ -80,7 +125,7 @@ export default function Dashboard({ navigation }) {
               fontFamily: 'OpenSans-Bold',
               fontSize: 22,
             }}>
-            654
+            {generatedOrders && generatedOrders.length}
           </Text>
         </View>
         <View
@@ -115,7 +160,7 @@ export default function Dashboard({ navigation }) {
               fontFamily: 'OpenSans-Bold',
               fontSize: 22,
             }}>
-            654
+            {acceptedOrders && acceptedOrders.length}
           </Text>
         </View>
       </View>

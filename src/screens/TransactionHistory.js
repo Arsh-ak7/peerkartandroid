@@ -19,6 +19,8 @@ export default function TransactionHistory() {
   const [loading, setLoading] = useState(false);
   const token = useSelector(state => state.auth.userData.token);
 
+  const dd = useSelector(state => state.auth.userData);
+
   useEffect(() => {
     const fetchOrders = () => {
       setLoading(true);
@@ -98,7 +100,7 @@ export default function TransactionHistory() {
             }}>
             <Text
               style={{
-                color: 'black',
+                color: order.generatedBy === dd.id ? 'red' : 'green',
                 fontSize: 20,
                 textTransform: 'uppercase',
                 fontFamily: 'Poppins-SemiBold',
@@ -150,21 +152,6 @@ export default function TransactionHistory() {
             </Text>
           </View>
         ))}
-        <View style={{ alignItems: 'flex-end' }}>
-          <Text
-            style={{
-              color: 'white',
-              fontSize: 16,
-              textTransform: 'uppercase',
-              fontFamily: 'Poppins-SemiBold',
-              paddingTop: 15,
-              paddingLeft: 25,
-              paddingRight: 25,
-            }}>
-            ORDER ACCEPTED BY:{' '}
-            {section.acceptedBy === null ? 'NONE' : section.acceptedBy}
-          </Text>
-        </View>
       </View>
     );
   };

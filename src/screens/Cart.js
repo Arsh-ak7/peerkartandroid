@@ -20,7 +20,6 @@ export default function Cart({ navigation }) {
   const [addNameModal, setAddNameModalVisible] = useState(false);
   const [addOrderCategoryModal, setAddOrderCategoryModal] = useState(false);
   const dispatch = useDispatch();
-  console.log(cart);
 
   return (
     <View>
@@ -201,7 +200,7 @@ export default function Cart({ navigation }) {
                         textTransform: 'uppercase',
                         fontFamily: 'Poppins-SemiBold',
                       }}>
-                      {item.qty}
+                      {item.quantity}
                     </Text>
                   </View>
                   <TouchableOpacity

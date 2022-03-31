@@ -16,14 +16,13 @@ import { resetCart } from '../redux/actions/cartActions';
 
 export default function Checkout({ navigation }) {
   const { height, width } = Dimensions.get('screen');
+
   const userData = useSelector(state => state.auth.userData);
   const address = useSelector(state => state.auth.userData.address[0].address);
   const cart = useSelector(state => state.cart);
   const [currAddress, setCurrAddress] = useState(userData.address[0]);
   const [paymentOption, setPaymentOption] = useState(userData.paymentMethod[0]);
   const dispatch = useDispatch();
-
-  console.log(cart);
 
   const noPaymenstData = [
     { text: 'No Existing payment methods. Please add one.' },
@@ -53,8 +52,8 @@ export default function Checkout({ navigation }) {
           },
         },
       )
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+      .then(res => console.log('rs', res))
+      .catch(error => console.log('err', error.response.data));
   };
 
   const __renderItem = ({ item }) => {

@@ -15,7 +15,6 @@ export default function AddPhone({ setModalVisible }) {
   const token = useSelector(state => state.auth.userData.token);
   const userData = useSelector(state => state.auth.userData);
   const dispatch = useDispatch();
-
   const updatePhone = async () => {
     await axiosInstance
       .put(
@@ -34,7 +33,9 @@ export default function AddPhone({ setModalVisible }) {
           contact: newData,
         };
         saveUserData(dispatch, updatedData);
-      });
+        setModalVisible(false);
+      })
+      .catch(err => console.log(err));
   };
 
   return (

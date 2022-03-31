@@ -11,7 +11,6 @@ import axiosInstance from '../../utils/axios';
 import { saveUserData } from '../../redux/actions/authActions';
 
 export default function EditPayment({ setModalVisible, data }) {
-  console.log('data', data);
   const { height } = Dimensions.get('screen');
   const [paymentType, setBankName] = useState(data.paymentType);
   const [paymentId, setPaymentType] = useState(data.paymentId);
@@ -42,6 +41,7 @@ export default function EditPayment({ setModalVisible, data }) {
           paymentMethod: newData,
         };
         saveUserData(dispatch, updatedData);
+        setModalVisible(false);
       })
       .catch(err => console.log(err.data));
   };

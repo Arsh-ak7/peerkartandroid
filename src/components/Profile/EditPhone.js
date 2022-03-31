@@ -12,7 +12,6 @@ import { saveUserData } from '../../redux/actions/authActions';
 export default function EditPhone({ setModalVisible, data }) {
   const { height } = Dimensions.get('screen');
   const [phone, setPhone] = useState();
-  console.log(data);
   const token = useSelector(state => state.auth.userData.token);
   const userData = useSelector(state => state.auth.userData);
   const dispatch = useDispatch();
@@ -35,6 +34,7 @@ export default function EditPhone({ setModalVisible, data }) {
           contact: newData,
         };
         saveUserData(dispatch, updatedData);
+        setModalVisible(false);
       });
   };
 

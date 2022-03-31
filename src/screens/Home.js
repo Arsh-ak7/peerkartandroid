@@ -1,5 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
-import { View, Text, StatusBar, TouchableOpacity, Image } from 'react-native';
+import {
+  View,
+  Text,
+  StatusBar,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import CustomModal from '../components/CustomModal';
 import OrderView from '../components/Home/OrderView';
@@ -8,6 +15,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import AddOrderName from '../components/AddOrderName';
 import AddOrderCategory from '../components/AddOrderCategory';
 import axiosInstance from '../utils/axios';
+import Geolocation from 'react-native-geolocation-service';
 
 export default function Home({ navigation }) {
   const [token, setToken] = useState();
@@ -16,22 +24,45 @@ export default function Home({ navigation }) {
   const [orderViewContent, setOrderViewContent] = useState(null);
   const [addNameModal, setAddNameModalVisible] = useState(false);
   const [addOrderCategoryModal, setAddOrderCategoryModal] = useState(false);
-  const data = [];
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState();
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
+
+  useEffect(() => {
+    Geolocation.getCurrentPosition(
+      position => {
+        setLatitude(position.coords.latitude);
+        setLongitude(position.coords.longitude);
+      },
+      error => {
+        // See error code charts below.
+        console.log(error.code, error.message);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+    );
+  }, []);
 
   useEffect(() => {
     async function getOrders() {
       setLoading(true);
-      await axiosInstance
-        .get('/orders/?page=1')
-        .then(res => {
-          setLoading(false), setOrders(res.data.data);
-        })
-        .catch(err => console.log(err));
+      longitude &&
+        (await axiosInstance
+          .get(
+            '/orders/?page=1',
+            {
+              data: { coordinates: [longitude, latitude], maxRadius: 1 },
+            },
+            {},
+          )
+          .then(res => {
+            console.log(res.data.totalPages);
+            setLoading(false), setOrders(res.data.data);
+          })
+          .catch(err => console.log(err)));
     }
     getOrders();
-  }, []);
+  }, [longitude]);
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -102,7 +133,14 @@ export default function Home({ navigation }) {
               height: height * 0.7,
             }}>
             {loading ? (
-              <Text style={{ color: 'black' }}>Loading</Text>
+              <View
+                style={{
+                  height: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ActivityIndicator color={'#eb5757'} size="large" />
+              </View>
             ) : (
               orders &&
               orders.map((order, i) => (

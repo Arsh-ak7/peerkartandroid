@@ -20,7 +20,7 @@ export default function AddOrderCategory({
   setAddNameModalVisible,
 }) {
   const { width } = Dimensions.get('screen');
-  const [category, setCategory] = useState('Groceries');
+  const [category, setCategory] = useState('Grocery');
   const dispatch = useDispatch();
   return (
     <KeyboardAvoidingView>

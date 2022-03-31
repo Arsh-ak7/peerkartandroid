@@ -13,7 +13,7 @@ export const cartReducer = (state = initialState, action) => {
     case constants.ADD_TO_CART:
       const item = {
         name: action.payload.name,
-        qty: action.payload.qty,
+        quantity: action.payload.qty,
         unit: action.payload.unit,
       };
       const existingItem = state.items.find(
@@ -26,7 +26,7 @@ export const cartReducer = (state = initialState, action) => {
             item.name === action.payload.name
               ? {
                   ...item,
-                  qty: action.payload.qty,
+                  quantity: action.payload.qty,
                   unit: action.payload.unit,
                 }
               : item,

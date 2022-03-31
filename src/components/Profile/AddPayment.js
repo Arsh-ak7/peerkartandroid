@@ -42,8 +42,9 @@ export default function AddPayment({ setModalVisible }) {
           paymentMethod: newData,
         };
         saveUserData(dispatch, updatedData);
+        setModalVisible(false);
       })
-      .catch(err => console.log(err.data));
+      .catch(err => console.log(err));
   };
 
   return (

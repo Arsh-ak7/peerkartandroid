@@ -35,7 +35,6 @@ export default function Routes() {
   const Tab = createBottomTabNavigator();
 
   const cartCount = useSelector(state => state.cart.items);
-  console.log(cartCount.length);
 
   function DashboardScreens() {
     return (

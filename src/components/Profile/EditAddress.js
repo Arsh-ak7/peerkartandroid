@@ -65,6 +65,7 @@ export default function EditAddress({ setModalVisible, data }) {
           address: newData,
         };
         saveUserData(dispatch, updatedData);
+        setModalVisible(false);
       })
       .catch(err => console.log(err));
   };
