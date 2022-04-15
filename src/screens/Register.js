@@ -35,7 +35,7 @@ export default function Register({ navigation }) {
       })
       .catch(error => {
         setLoading(false);
-        setError({ error: error.response.data.error });
+        setError({ error: error.response.data.error.msg });
         setModalVisible(true);
       });
   };

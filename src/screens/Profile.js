@@ -30,6 +30,7 @@ export default function Profile() {
   const [editPayment, setEditPayment] = useState(false);
 
   const userData = useSelector(state => state.auth.userData);
+
   const [currPayment, setCurrPayment] = useState(userData.paymentMethod[0]);
   const [currAddress, setCurrAddress] = useState(userData.address[0]);
 

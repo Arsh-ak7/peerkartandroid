@@ -18,7 +18,6 @@ import axiosInstance from '../utils/axios';
 import Geolocation from 'react-native-geolocation-service';
 
 export default function Home({ navigation }) {
-  const [token, setToken] = useState();
   const { height, width } = Dimensions.get('screen');
   const [orderViewModal, setOrderViewModal] = useState(false);
   const [orderViewContent, setOrderViewContent] = useState(null);

@@ -1,4 +1,4 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 import {
   persistStore,
@@ -31,8 +31,6 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-const middleware = [thunk];
-
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware =>
@@ -43,8 +41,4 @@ export const store = configureStore({
     }).concat(thunk),
 });
 
-// export const store = createStore(
-//   persistedReducer,
-//   applyMiddleware(...middleware),
-// );
 export const persistor = persistStore(store);

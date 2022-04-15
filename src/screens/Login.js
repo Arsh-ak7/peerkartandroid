@@ -11,8 +11,20 @@ import {
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Dimensions } from 'react-native';
+import axios from 'axios';
 import axiosInstance from '../utils/axios';
 import { saveUserData } from '../redux/actions/authActions';
+
+export const login = async (email, password) => {
+  const ll = await axios.post(
+    'https://peerkart-bee.herokuapp.com/api/v1/auth/login',
+    {
+      email,
+      password,
+    },
+  );
+  return ll.data;
+};
 
 export default function Login({ navigation }) {
   const { width, height } = Dimensions.get('screen');
@@ -35,11 +47,11 @@ export default function Login({ navigation }) {
       })
       .catch(error => {
         setLoading(false);
-        console.log(error.response.data);
         setError({ error: error.response.data.error.msg });
         setModalVisible(true);
       });
   };
+
   const LoginError = () => (
     <Modal
       animationType="fade"
