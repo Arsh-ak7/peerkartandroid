@@ -31,3 +31,9 @@ The application also has a complete cart system in places where users upon addin
 #### TRACKING:
 
 We also have provided a feature where in the user accepting the order gets to know exactly where the order needs to be delivered.
+
+#### SCREENS:
+
+LOGIN SCREEN
+<br>
+<image src="./app-images/login.png" width ="200px" />
