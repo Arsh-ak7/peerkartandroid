@@ -23,6 +23,7 @@ export default function OrdersPlaced({ navigation, route }) {
           },
         })
         .then(res => {
+          console.log(res.data.data);
           setGeneratedOrders(res.data.data);
           setLoading(false);
         })
@@ -164,7 +165,7 @@ export default function OrdersPlaced({ navigation, route }) {
               paddingRight: 25,
             }}>
             ORDER ACCEPTED BY:{' '}
-            {section.acceptedBy === null ? 'NONE' : section.acceptedBy}
+            {section.acceptedBy === null ? 'NONE' : section.acceptedBy.username}
           </Text>
         </View>
       </View>
